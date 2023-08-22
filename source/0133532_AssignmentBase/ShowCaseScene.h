@@ -3,9 +3,6 @@
 
 #include <glad/glad.h>
 #include <iostream>
-
-#include "GameObject.h";
-
 class ShowCaseScene : public BaseScene {
 public:
 	std::string getName() const override;
@@ -16,6 +13,8 @@ protected:
 	void on_update(float deltaTime) override;
 
 private:
-	
+	GameObject* go1;
+	GameObject* go2;
+	float testVal = 0;
 };
 

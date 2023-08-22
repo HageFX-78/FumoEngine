@@ -24,8 +24,7 @@ int Application::initialize(int width, int height, const char* title)
 
 	// Scene Creation ------------------------------------------
 	SceneStateMachine::addScene<ShowCaseScene>();
-	SceneStateMachine::addScene<SplashScene>();
-	SceneStateMachine::loadScene("SplashScene");
+	SceneStateMachine::loadScene("ShowCaseScene");
 	// ---------------------------------------------------------
 
 

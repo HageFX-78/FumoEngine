@@ -146,9 +146,11 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RendererComponent.cpp" />
+    <ClCompile Include="ResourceAllocator.cpp" />
     <ClCompile Include="SceneStateMachine.cpp" />
     <ClCompile Include="ShowCaseScene.cpp" />
     <ClCompile Include="SplashScene.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="TestScenesCompilation.h" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
@@ -165,9 +167,13 @@
     <ClInclude Include="GameObjectCollection.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="RendererComponent.h" />
+    <ClInclude Include="ResourceAllocator.h" />
     <ClInclude Include="SceneStateMachine.h" />
     <ClInclude Include="ShowCaseScene.h" />
     <ClInclude Include="SplashScene.h" />
+    <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="texture_utils.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="WindowEventData.h" />

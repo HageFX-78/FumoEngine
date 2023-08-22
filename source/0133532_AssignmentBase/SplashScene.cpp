@@ -18,7 +18,7 @@ void SplashScene::initialize()  {
 	go1->transform->setXPosition(-200);
 	go1->transform->setYPosition(-50);
 	go1->transform->setXScale(0.0);
-	go1->transform->setYScale(0.2);
+	go1->transform->setYScale(0.2f);
 
 
 	go2 = new GameObject("Triangle");

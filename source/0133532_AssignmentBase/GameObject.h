@@ -20,10 +20,11 @@ public:
 
 	template <
 		typename T,
-		typename = typename std::enable_if<std::is_base_of<BaseComponent, T>::value>::type
+		typename = typename std::enable_if<std::is_base_of<BaseComponent, T>::value>::type,
+		typename... Args
 	>
 
-	T* addComponent() {
+	T* addComponent(Args&&... args) {
 
 		auto availableInstance = getComponent<T>();//Check if the component exists or not
 
@@ -36,7 +37,8 @@ public:
 			}
 		}
 
-		T* newComponent = new T(this);
+		T* newComponent = new T(this, std::forward<Args>(args)...);
+
 		componentsJustAdded.push_back(newComponent);
 		components.push_back(newComponent);
 

@@ -7,7 +7,7 @@
 
 GameObject::GameObject(std::string nName) : name(nName){
 	transform = addComponent<TransformComponent>();
-	renderer = addComponent<RendererComponent>();
+	//renderer = addComponent<RendererComponent>();
 
 	GameObjectCollection::add(this);
 	std::cout << "<*> Game Object " << name << " is Instantiated" << std::endl;
