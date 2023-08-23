@@ -13,15 +13,12 @@ class SpriteRenderer : public BaseComponent
 {
 public:
 	SpriteRenderer(GameObject* go, 
-		std::string spritePath = "../assets/hertacunny.png",
+		std::string spritePath = "../assets/herta.png",
 		Vector4 dColor = Vector4(255.0f, 255.0f, 255.0f, 1.0f),
 		Vector2 dPivot = Vector2(0.0f, 0.0f),
 		Vector2 dSize = Vector2(1.0f, 1.0f));
 	~SpriteRenderer();
 
-	void awake() override;
-	void start() override;
-	void update(float deltaTime) override;
 	void render() override;
 
 	void setColor(float r, float g, float b);
@@ -48,7 +45,5 @@ protected:
 	float w, h;
 	
 	Vector3 pivotPoint;//So i can easily add it to matrix4
-
-	std::string defaultPath = "../assets/hertacunny.png";
 };
 

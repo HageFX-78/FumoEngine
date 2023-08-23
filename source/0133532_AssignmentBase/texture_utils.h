@@ -5,7 +5,16 @@
 #include <string>
 #include <iostream>
 
-unsigned int loadTexture(std::string path)
+struct TextureData {
+	unsigned int handle;
+	int width;
+	int height;
+
+	TextureData(unsigned int h, int w, int nh)
+		: handle(h), width(w), height(nh) {}
+};
+
+TextureData loadTexture(std::string path)
 {
 	unsigned int handle = 0;
 	int width, height, nrChannels;
@@ -34,5 +43,6 @@ unsigned int loadTexture(std::string path)
 	}
 	stbi_image_free(data);
 
-	return handle;
+	TextureData textData = TextureData(handle, width, height);
+	return textData;
 }

@@ -10,11 +10,12 @@ class Texture
 public:
 	static Texture* createResource(std::string path)
 	{
-		unsigned int id = loadTexture(path);
+		TextureData textureData = loadTexture(path);
+		unsigned int id = textureData.handle;
 
 		if (id > 0)
 		{
-			Texture* tex = new Texture(path, id);
+			Texture* tex = new Texture(path, id, textureData.width, textureData.height);
 			return tex;
 		}
 
@@ -36,10 +37,21 @@ public:
 	std::string getTextureName() const {
 		return name;
 	}
+
+	int getTextureWidth() const {
+		return textureWidth;
+	}
+	int getTextureHeight() const {
+		return textureHeight;
+	}
 private:
-	Texture(std::string path, unsigned int id) : name(path), texture_ID(id) { }
+	Texture(std::string path, unsigned int id, int nW, int nH) : name(path), texture_ID(id), textureWidth(nW), textureHeight(nH) { }
 
 	std::string name;
 	unsigned int texture_ID;
 	unsigned int refCount = 0;
+
+	int textureWidth;
+	int textureHeight;
+
 };

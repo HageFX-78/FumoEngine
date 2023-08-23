@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 #include <iostream>
+#include <string>
 class ShowCaseScene : public BaseScene {
 public:
 	std::string getName() const override;

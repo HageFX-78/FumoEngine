@@ -12,7 +12,7 @@ public:
 	template <typename ResourceType>
 	static ResourceType* allocateResource(std::string& path) {
 
-		ResourceType* existingResource = findResource<Texture>(path);
+		ResourceType* existingResource = findResource<ResourceType>(path);
 
 		if (existingResource)
 		{

@@ -5,11 +5,11 @@
 
 
 SpriteRenderer::SpriteRenderer(GameObject* go
-		, std::string spritePath
-		, Vector4 dColor
-		, Vector2 dPivot
-		, Vector2 dSize
-	) : BaseComponent(go)
+	, std::string spritePath
+	, Vector4 dColor
+	, Vector2 dPivot
+	, Vector2 dSize
+) : BaseComponent(go)
 {
 	texture = ResourceAllocator::allocateResource<Texture>(spritePath);
 
@@ -24,18 +24,6 @@ SpriteRenderer::SpriteRenderer(GameObject* go
 SpriteRenderer::~SpriteRenderer()
 {
 	ResourceAllocator::releaseResource<Texture>(texture);
-}
-
-void SpriteRenderer::awake()
-{
-}
-
-void SpriteRenderer::start()
-{
-}
-
-void SpriteRenderer::update(float deltaTime)
-{
 }
 
 void SpriteRenderer::render()
@@ -60,6 +48,7 @@ void SpriteRenderer::render()
 	Matrix4 allMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 	glMultMatrixf(allMatrix.data);
 
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
@@ -67,11 +56,16 @@ void SpriteRenderer::render()
 	texture->bind();
 
 	glBegin(GL_QUADS);
-	glColor3f(r, g, b);
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(-50, 50, 0);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(-50, -50, 0);
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(50, -50, 0);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(50, 50, 0);
+	glColor4f(r, g, b, a);
+
+	//Offset by local size and height so different sprite renderers have different local w and h
+	float scaledTextWidth = texture->getTextureWidth() * w;
+	float scaledTextHeight = texture->getTextureHeight() * h;
+
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-scaledTextWidth, scaledTextHeight, 0);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-scaledTextWidth, -scaledTextHeight, 0);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(scaledTextWidth, -scaledTextHeight, 0);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(scaledTextWidth, scaledTextHeight, 0);
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
@@ -94,9 +88,19 @@ void SpriteRenderer::setColor(Vector3 color)
 	b = color.data[2];
 }
 
+Vector3 SpriteRenderer::getColor()
+{
+	return Vector3(r, g, b);
+}
+
 void SpriteRenderer::setOpacity(float nA)
 {
 	a = nA;
+}
+
+float SpriteRenderer::getOpacity()
+{
+	return a;
 }
 
 void SpriteRenderer::setSize(float nW, float nH)
@@ -111,6 +115,11 @@ void SpriteRenderer::setSize(Vector2 size)
 	h = size.data[1];
 }
 
+Vector2 SpriteRenderer::getSize()
+{
+	return Vector2(w, h);
+}
+
 void SpriteRenderer::setPivot(float x, float y)
 {
 	pivotPoint = Vector3(x, y, 0);
@@ -119,6 +128,11 @@ void SpriteRenderer::setPivot(float x, float y)
 void SpriteRenderer::setPivot(Vector2 pivot)
 {
 	pivotPoint = Vector3(pivot.data[0], pivot.data[1], 0);
+}
+
+Vector2 SpriteRenderer::getPivot()
+{
+	return Vector2(pivotPoint.data[0], pivotPoint.data[1]);
 }
 
 void SpriteRenderer::setSprite(std::string path)
