@@ -15,7 +15,7 @@ public:
 	SpriteRenderer(GameObject* go, 
 		std::string spritePath = "../assets/herta.png",
 		Vector4 dColor = Vector4(255.0f, 255.0f, 255.0f, 1.0f),
-		Vector2 dPivot = Vector2(0.0f, 0.0f),
+		Vector2 dPivot = Vector2(0.5f, 0.5f),
 		Vector2 dSize = Vector2(1.0f, 1.0f));
 	~SpriteRenderer();
 

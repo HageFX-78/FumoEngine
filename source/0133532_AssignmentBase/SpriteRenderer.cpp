@@ -30,15 +30,23 @@ void SpriteRenderer::render()
 {
 	glPushMatrix();
 
+	//Offset by local size and height so different sprite renderers have different local w and h
+	float scaledTextWidth = texture->getTextureWidth() * 0.5f * w;
+	float scaledTextHeight = texture->getTextureHeight() * 0.5f * h;
+
 	// Translation
 	Vector3 translationVector(localTransform->getXPosition(), localTransform->getYPosition(), 0.0f);
 	Matrix4 translationMatrix = Matrix4::translate(translationVector);
 
 	// Rotation
-	Matrix4 pivotTranslate = Matrix4::translate(pivotPoint);
+	float pivotX = 2.0f * pivotPoint.x - 1.0f;//Scale the default -1.0 to 1.0 pivot till 0.0 to 1,0 based on requirement
+	float pivotY = 2.0f * pivotPoint.y - 1.0f;
+
+	Vector3 pivotOffset(pivotX  * scaledTextWidth, pivotY * scaledTextHeight, 1.0f);
+	Matrix4 pivotTranslate = Matrix4::translate(pivotOffset);
 	Matrix4 pivotRotate = Matrix4::rotate(localTransform->getRotation(), Vector3(0.0f, 0.0f, 1.0f));
-	Matrix4 pivotTranslateBack = Matrix4::translate(-pivotPoint);
-	Matrix4 rotationMatrix = pivotTranslate * pivotRotate * pivotTranslateBack;//Apply pivot rotation on pivot point before reverting back to normal
+	Matrix4 pivotTranslateBack = Matrix4::translate(-pivotOffset);
+	Matrix4 rotationMatrix = pivotTranslate * pivotRotate * pivotTranslateBack;
 
 	// Scale
 	Vector3 scaleVector(localTransform->getXScale(), localTransform->getYScale(), 1.0f);
@@ -58,9 +66,6 @@ void SpriteRenderer::render()
 	glBegin(GL_QUADS);
 	glColor4f(r, g, b, a);
 
-	//Offset by local size and height so different sprite renderers have different local w and h
-	float scaledTextWidth = texture->getTextureWidth() * w;
-	float scaledTextHeight = texture->getTextureHeight() * h;
 
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-scaledTextWidth, scaledTextHeight, 0);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-scaledTextWidth, -scaledTextHeight, 0);

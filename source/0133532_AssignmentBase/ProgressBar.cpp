@@ -7,6 +7,7 @@ ProgressBar::ProgressBar(GameObject* go, float brLen, float brHei, float prog) :
 
 	setBackDropColor(0.0, 0.0f, 0.0f, 1.0f);
 	setBarColor(255.0f, 255.0f, 255.0f, 1.0f);
+	setPivot(0.0f, 0.5f);
 
 	localTransform = go->transform;
 }
@@ -24,7 +25,7 @@ void ProgressBar::render()
 void ProgressBar::setBackDropColor(float r, float g, float b, float a)
 {
 	progressBarBackgroundColor = Vector4(r / 255.0f, g / 255.0f, b / 255.0f, a);
-	
+
 }
 
 void ProgressBar::getBackDropColor()
@@ -59,9 +60,13 @@ void ProgressBar::drawProgressBar(float length, float height)
 	Matrix4 translationMatrix = Matrix4::translate(translationVector);
 
 	// Rotation
-	Matrix4 pivotTranslate = Matrix4::translate(pivotPoint);
+	float pivotX = 2.0f * pivotPoint.x - 1.0f;//Scale the default -1.0 to 1.0 pivot till 0.0 to 1,0 based on requirement
+	float pivotY = 2.0f * pivotPoint.y - 1.0f;
+	Vector3 pivotOffset(pivotX * length * 0.5f, pivotY * height * 0.5f, 0.0f);
+
+	Matrix4 pivotTranslate = Matrix4::translate(pivotOffset);
 	Matrix4 pivotRotate = Matrix4::rotate(localTransform->getRotation(), Vector3(0.0f, 0.0f, 1.0f));
-	Matrix4 pivotTranslateBack = Matrix4::translate(-pivotPoint);
+	Matrix4 pivotTranslateBack = Matrix4::translate(-pivotOffset);
 	Matrix4 rotationMatrix = pivotTranslate * pivotRotate * pivotTranslateBack;//Apply pivot rotation on pivot point before reverting back to normal
 
 	// Scale
@@ -83,7 +88,7 @@ void ProgressBar::drawProgressBar(float length, float height)
 
 	glBegin(GL_QUADS);
 	glColor3f(progressBarColor.x, progressBarColor.y, progressBarColor.z);
-	glVertex3f(-length / 2 , height / 2, 0.0f);
+	glVertex3f(-length / 2, height / 2, 0.0f);
 	glVertex3f(-length / 2, -height / 2, 0.0f);
 	glVertex3f(-length / 2 + innerBarWidth, -height / 2, 0.0f);
 	glVertex3f(-length / 2 + innerBarWidth, height / 2, 0.0f);

@@ -18,22 +18,23 @@ std::string ShowCaseScene::getName() const {
 }
 
 void ShowCaseScene::initialize() {
-	player = new GameObject();
+	/*player = new GameObject();
 	player->addComponent<SpriteRenderer>("../assets/player.png", Vector4(0.0f, 255.0f, 0.0f, 0.5f), Vector2(0, 0), Vector2(0.05f, 0.05f));
-	player->addComponent<CircleCollider>(false, 15.0f);
+	player->addComponent<CircleCollider>(false, 15.0f);*/
 
 	go1 = new GameObject();
 	go1->addComponent<SpriteRenderer>("../assets/herta.png", Vector4(255.0f, 255.0f, 255.0f, 0.5f));
-	go1->getComponent<SpriteRenderer>()->setSize(0.05f, 0.05f);
+	go1->getComponent<SpriteRenderer>()->setSize(0.1f, 0.1f);
+	go1->getComponent<SpriteRenderer>()->setPivot(0.0f, 0.0f);
 	go1->addComponent<CircleCollider>();
 
 	/*go2 = new GameObject();
 	go2->addComponent<SpriteRenderer>("../assets/herta.png");
 	go2->getComponent<SpriteRenderer>()->setSize(0.05f, 0.05f);*/
 
-	/*progressbar = new GameObject();
+	progressbar = new GameObject();
 	progressbar->addComponent<ProgressBar>();
-	progressbar->getComponent<ProgressBar>()->setPivot(-progressbar->getComponent<ProgressBar>()->getBarLength()/2, 0);*/
+	//progressbar->getComponent<ProgressBar>()->setPivot(-progressbar->getComponent<ProgressBar>()->getBarLength()/2, 0);
 }
 
 void ShowCaseScene::on_activate() {
@@ -41,30 +42,25 @@ void ShowCaseScene::on_activate() {
 }
 
 void ShowCaseScene::on_update(float deltaTime) {
+	testVal += deltaTime * 100;
+
+	progressbar->transform->setRotation(testVal);
 
 	if (player)
 	{
-		float angle = std::atan2(Input::getMousePositionCentered().y - player->transform->getYPosition(),
-								Input::getMousePositionCentered().x - player->transform->getXPosition());
+		float angleInDegrees = std::atan2(Input::getMousePositionCentered().y - player->transform->getYPosition(),
+			Input::getMousePositionCentered().x - player->transform->getXPosition()) * (180.0f / M_PI);
 
-		// Convert the angle to degrees
-		float angleInDegrees = angle * (180.0f / M_PI);
-
-		if (angleInDegrees < 0.0f)
-		{
-			angleInDegrees += 360.0f;
-		}
-
-		player->transform->setRotation(angleInDegrees);
+		player->transform->setRotation(angleInDegrees - 90);
 	}
 
-	if (player->getComponent<CircleCollider>()->checkCircleCollision(*go1->getComponent<CircleCollider>()))
+	/*if (player->getComponent<CircleCollider>()->checkCircleCollision(*go1->getComponent<CircleCollider>()))
 	{
 		if (!player->getComponent<CircleCollider>()->getIsColliding())
 		{
 			std::cout << " Just Collided! " << std::endl;
 			player->getComponent<CircleCollider>()->setIsColliding(true);
-		}	
+		}
 	}
 	else
 	{
@@ -73,7 +69,7 @@ void ShowCaseScene::on_update(float deltaTime) {
 			std::cout << " Collider Exited " << std::endl;
 			player->getComponent<CircleCollider>()->setIsColliding(false);
 		}
-	}
+	}*/
 
 
 
