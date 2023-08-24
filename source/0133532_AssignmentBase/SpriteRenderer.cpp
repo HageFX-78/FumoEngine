@@ -14,11 +14,11 @@ SpriteRenderer::SpriteRenderer(GameObject* go
 	texture = ResourceAllocator::allocateResource<Texture>(spritePath);
 
 	localTransform = go->getComponent<TransformComponent>();
-	setColor(dColor.data[0], dColor.data[1], dColor.data[2]);
-	setOpacity(dColor.data[3]);
+	setColor(dColor.x, dColor.y, dColor.z);
+	setOpacity(dColor.w);
 
-	setPivot(dPivot.data[0], dPivot.data[1]);
-	setSize(dSize.data[0], dSize.data[1]);
+	setPivot(dPivot.x, dPivot.y);
+	setSize(dSize.x, dSize.y);
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -83,9 +83,9 @@ void SpriteRenderer::setColor(float nR, float nG, float nB)
 
 void SpriteRenderer::setColor(Vector3 color)
 {
-	r = color.data[0];
-	g = color.data[1];
-	b = color.data[2];
+	r = color.x;
+	g = color.y;
+	b = color.z;
 }
 
 Vector3 SpriteRenderer::getColor()
@@ -111,8 +111,8 @@ void SpriteRenderer::setSize(float nW, float nH)
 
 void SpriteRenderer::setSize(Vector2 size)
 {
-	w = size.data[0];
-	h = size.data[1];
+	w = size.x;
+	h = size.y;
 }
 
 Vector2 SpriteRenderer::getSize()
@@ -127,12 +127,12 @@ void SpriteRenderer::setPivot(float x, float y)
 
 void SpriteRenderer::setPivot(Vector2 pivot)
 {
-	pivotPoint = Vector3(pivot.data[0], pivot.data[1], 0);
+	pivotPoint = Vector3(pivot.x, pivot.y, 0);
 }
 
 Vector2 SpriteRenderer::getPivot()
 {
-	return Vector2(pivotPoint.data[0], pivotPoint.data[1]);
+	return Vector2(pivotPoint.x, pivotPoint.y);
 }
 
 void SpriteRenderer::setSprite(std::string path)

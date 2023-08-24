@@ -140,11 +140,13 @@
     <ClCompile Include="AppWindow.cpp" />
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectCollection.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="RendererComponent.cpp" />
     <ClCompile Include="ResourceAllocator.cpp" />
     <ClCompile Include="SceneStateMachine.cpp" />
@@ -163,9 +165,11 @@
     <ClInclude Include="AppWindow.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectCollection.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="RendererComponent.h" />
     <ClInclude Include="ResourceAllocator.h" />
     <ClInclude Include="SceneStateMachine.h" />

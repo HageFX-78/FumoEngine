@@ -1,4 +1,5 @@
 #include "Input.h"
+#include <Windows.h>
 
 //Key and Mouse States
 #pragma region KeyMouseStates
@@ -66,37 +67,46 @@ std::unordered_map<int, bool> Input::mouse_states = {
 };
 std::unordered_map<int, bool> Input::previous_mouse_states = mouse_states;
 #pragma endregion
-InputVector2 Input::mousePos {0, 0};
 
 
+InputVector2 Input::mousePos{ 0, 0 };
+InputVector2 Input::centeredMousePos{ 0, 0 };
 void Input::processInput(AppWindow* window)
 {
 	GLFWwindow* mWindow = window->getWindowPtr();//Get actual window ptr in input instead of application
 
 	glfwGetCursorPos(mWindow, &mousePos.x, &mousePos.y);
 
+	int screenWidth, screenHeight;
+	glfwGetWindowSize(mWindow, &screenWidth, &screenHeight);
+
+	float mousePosXCentered = static_cast<float>(mousePos.x) - (screenWidth * 0.5f);
+	float mousePosYCentered = (screenHeight * 0.5f) - static_cast<float>(mousePos.y);
+
+	centeredMousePos = InputVector2(mousePosXCentered, mousePosYCentered);
+
 	//Keys
-	for (auto &it : previous_key_states)
+	for (auto& it : previous_key_states)
 	{
 		it.second = key_states[it.first];
 	}
-	for (auto &it : key_states)
+	for (auto& it : key_states)
 	{
 		it.second = glfwGetKey(mWindow, it.first);
 	}
 
 	//Mouse
-	for (auto &it : previous_mouse_states)
+	for (auto& it : previous_mouse_states)
 	{
 		it.second = mouse_states[it.first];
 	}
-	for (auto &it : mouse_states)
+	for (auto& it : mouse_states)
 	{
 		it.second = glfwGetMouseButton(mWindow, it.first);
 	}
 }
 
-bool Input::getAnyKey(int &firstKey)
+bool Input::getAnyKey(int& firstKey)
 {
 	for (const auto& keyState : key_states)
 	{
@@ -124,7 +134,7 @@ bool Input::getAnyKeyDown(int& firstKey)
 
 #pragma region Additional
 //  Addtional function made for experimentation, to compensate for the fact that getAnyKey only reads 1 key, the first key checked.
-void Input::getAnyKeyAndProcess() 
+void Input::getAnyKeyAndProcess()
 {
 	std::queue<int> pressedKeys;
 	for (const auto& keyState : key_states)
@@ -190,6 +200,11 @@ const InputVector2 Input::getMousePosition()
 	return mousePos;
 }
 
+const InputVector2 Input::getMousePositionCentered()
+{
+	return centeredMousePos;
+}
+
 std::string Input::getKeyNameFiltered(int key) {
 
 	char const* str = glfwGetKeyName(key, 0);
@@ -197,23 +212,23 @@ std::string Input::getKeyNameFiltered(int key) {
 
 
 	switch (key) {//When it returns nullptr after the glfw function, idk why they half finished the function
-		case GLFW_KEY_LEFT_CONTROL: return "Left Ctrl";
-		case GLFW_KEY_RIGHT_CONTROL: return "Right Ctrl";
+	case GLFW_KEY_LEFT_CONTROL: return "Left Ctrl";
+	case GLFW_KEY_RIGHT_CONTROL: return "Right Ctrl";
 
-		case GLFW_KEY_LEFT_SHIFT: return "Left Shift";
-		case GLFW_KEY_RIGHT_SHIFT: return "Right Shift";
+	case GLFW_KEY_LEFT_SHIFT: return "Left Shift";
+	case GLFW_KEY_RIGHT_SHIFT: return "Right Shift";
 
-		case GLFW_KEY_LEFT_ALT: return "Left Alt";
-		case GLFW_KEY_RIGHT_ALT: return "Right Alt";
+	case GLFW_KEY_LEFT_ALT: return "Left Alt";
+	case GLFW_KEY_RIGHT_ALT: return "Right Alt";
 
-		case GLFW_KEY_ESCAPE: return "Escape";
-		case GLFW_KEY_ENTER: return "Enter";
-		case GLFW_KEY_SPACE: return "Space";
+	case GLFW_KEY_ESCAPE: return "Escape";
+	case GLFW_KEY_ENTER: return "Enter";
+	case GLFW_KEY_SPACE: return "Space";
 
-		case GLFW_KEY_UP: return "Arrow Up";
-		case GLFW_KEY_DOWN: return "Arrow Down";
-		case GLFW_KEY_LEFT: return "Arrow Left";
-		case GLFW_KEY_RIGHT: return "Arrow Right";
-		default: return "Unknown Key";
+	case GLFW_KEY_UP: return "Arrow Up";
+	case GLFW_KEY_DOWN: return "Arrow Down";
+	case GLFW_KEY_LEFT: return "Arrow Left";
+	case GLFW_KEY_RIGHT: return "Arrow Right";
+	default: return "Unknown Key";
 	}
 }

@@ -1,11 +1,16 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "ShowCaseScene.h"
 
 #include "Input.h"
 #include "Time.h"
 #include "SceneStateMachine.h"
 #include "GameObjectCollection.h"
-#include "SpriteRenderer.h"
 
+#include "SpriteRenderer.h"
+#include "ProgressBar.h"
+#include "CircleCollider.h"
 
 //Local variable and functions forward declared
 std::string ShowCaseScene::getName() const {
@@ -13,11 +18,22 @@ std::string ShowCaseScene::getName() const {
 }
 
 void ShowCaseScene::initialize() {
-	go1 = new GameObject();
-	go1->addComponent<SpriteRenderer>("../assets/herta.png", Vector4(255,255,255,0.8f), Vector2(0, 0), Vector2(0.05f, 0.05f));
+	player = new GameObject();
+	player->addComponent<SpriteRenderer>("../assets/player.png", Vector4(0.0f, 255.0f, 0.0f, 0.5f), Vector2(0, 0), Vector2(0.05f, 0.05f));
+	player->addComponent<CircleCollider>(false, 15.0f);
 
-	go2 = new GameObject();
-	go2->addComponent<SpriteRenderer>("../assets/alice.png", Vector4(255.0f, 255.0f, 255.0f, 0.1f), Vector2(0,0));
+	go1 = new GameObject();
+	go1->addComponent<SpriteRenderer>("../assets/herta.png", Vector4(255.0f, 255.0f, 255.0f, 0.5f));
+	go1->getComponent<SpriteRenderer>()->setSize(0.05f, 0.05f);
+	go1->addComponent<CircleCollider>();
+
+	/*go2 = new GameObject();
+	go2->addComponent<SpriteRenderer>("../assets/herta.png");
+	go2->getComponent<SpriteRenderer>()->setSize(0.05f, 0.05f);*/
+
+	/*progressbar = new GameObject();
+	progressbar->addComponent<ProgressBar>();
+	progressbar->getComponent<ProgressBar>()->setPivot(-progressbar->getComponent<ProgressBar>()->getBarLength()/2, 0);*/
 }
 
 void ShowCaseScene::on_activate() {
@@ -25,29 +41,63 @@ void ShowCaseScene::on_activate() {
 }
 
 void ShowCaseScene::on_update(float deltaTime) {
-	testVal += 50.0f * deltaTime;
-	go1->transform->setRotation(testVal);
 
-	if (Input::getKey(GLFW_KEY_A))
+	if (player)
 	{
-		go1->transform->setXScale(go1->transform->getXScale() + 1.0f * deltaTime);
+		float angle = std::atan2(Input::getMousePositionCentered().y - player->transform->getYPosition(),
+								Input::getMousePositionCentered().x - player->transform->getXPosition());
+
+		// Convert the angle to degrees
+		float angleInDegrees = angle * (180.0f / M_PI);
+
+		if (angleInDegrees < 0.0f)
+		{
+			angleInDegrees += 360.0f;
+		}
+
+		player->transform->setRotation(angleInDegrees);
 	}
-	else if (Input::getKey(GLFW_KEY_D))
+
+	if (player->getComponent<CircleCollider>()->checkCircleCollision(*go1->getComponent<CircleCollider>()))
 	{
-		go1->transform->setXScale(go1->transform->getXScale() - 1.0f * deltaTime);
+		if (!player->getComponent<CircleCollider>()->getIsColliding())
+		{
+			std::cout << " Just Collided! " << std::endl;
+			player->getComponent<CircleCollider>()->setIsColliding(true);
+		}	
+	}
+	else
+	{
+		if (player->getComponent<CircleCollider>()->getIsColliding())
+		{
+			std::cout << " Collider Exited " << std::endl;
+			player->getComponent<CircleCollider>()->setIsColliding(false);
+		}
+	}
+
+
+
+	//  - - - -  Scene Input handling
+	if (Input::getKey(GLFW_KEY_D))
+	{
+		player->transform->setXPosition(player->transform->getXPosition() + 100.0f * deltaTime);
+	}
+	else if (Input::getKey(GLFW_KEY_A))
+	{
+		player->transform->setXPosition(player->transform->getXPosition() - 100.0f * deltaTime);
 	}
 	if (Input::getKey(GLFW_KEY_W))
 	{
-		go1->transform->setYScale(go1->transform->getYScale() + 1.0f * deltaTime);
+		player->transform->setYPosition(player->transform->getYPosition() + 100.0f * deltaTime);
 	}
 	else if (Input::getKey(GLFW_KEY_S))
 	{
-		go1->transform->setYScale(go1->transform->getYScale() - 1.0f * deltaTime);
+		player->transform->setYPosition(player->transform->getYPosition() - 100.0f * deltaTime);
 	}
 
 	if (Input::getKey(GLFW_KEY_Q))
 	{
-		std::cout << go1->getComponent<SpriteRenderer>()->getSize().data[0] << std::endl;
+		go1->destroy();
 	}
 }
 

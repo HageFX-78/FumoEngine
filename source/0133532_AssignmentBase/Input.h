@@ -11,6 +11,9 @@ struct InputVector2
 {
 	double x;
 	double y;
+	InputVector2(float vx, float vy) :
+		x(vx),
+		y(vy) {}
 };
 class Input
 {
@@ -30,6 +33,7 @@ public:
 	static bool getMouseButtonUp(int mb);
 
 	static const InputVector2 getMousePosition();
+	static const InputVector2 getMousePositionCentered();
 
 	static std::string getKeyNameFiltered(int key);
 private:
@@ -40,5 +44,6 @@ private:
 	static std::unordered_map<int, bool> previous_mouse_states;
 
 	static InputVector2 mousePos;
+	static InputVector2 centeredMousePos;
 };
 

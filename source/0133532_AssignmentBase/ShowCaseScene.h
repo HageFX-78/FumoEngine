@@ -16,6 +16,9 @@ protected:
 private:
 	GameObject* go1;
 	GameObject* go2;
+	GameObject* player;
+
+	GameObject* progressbar;
 	float testVal = 0;
 };
 
