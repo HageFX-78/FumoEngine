@@ -1,12 +1,16 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+#include <iostream>
+
 #include "RendererComponent.h"
 #include "TransformComponent.h"
 #include "angle_util/matrix.h"
 #include "angle_util/vector.h"
-#include <iostream>
 
-RendererComponent::RendererComponent(GameObject* go) : BaseComponent(go) {
+
+RendererComponent::RendererComponent(GameObject* go, ShapeToDraw defShape) : BaseComponent(go), defaultShape(defShape) {
 	allowMultiple = false;
-	setRGB(255, 255, 255);
+	setRGB(255.0f, 255.0f, 255.0f);
 	localTransform = gameObject->transform;
 
 	std::cout << "<@> Created Renderer Component on " << gameObject->getName() << std::endl;
@@ -15,68 +19,44 @@ RendererComponent::~RendererComponent() {
 	std::cout << "<!> Renderer component of " << gameObject->getName() << " is destroyed" << std::endl;
 }
 
-void RendererComponent::awake()
-{
-
-}
-void RendererComponent::start()
-{
-	
-}
 void RendererComponent::update(float deltaTime)
 {
 }
 
 void RendererComponent::render()
 {
-	//Get anchor and set offset, in render to update offset when scale is increased
-	Anchor anchorType = localTransform->getAnchorPosition();
-
-	switch (anchorType) {
-	case left:
-		anchorOffsetX = (localTransform->getXScale() * 100) / 2;//*100 to offset the initial ditance of vertices from opposing sides 
-		break;
-	case right:
-		anchorOffsetX = -(localTransform->getXScale() * 100) / 2;
-		break;
-	case top:
-		anchorOffsetY = (localTransform->getYScale() * 100) / 2;
-		break;
-	case bottom:
-		anchorOffsetY = -(localTransform->getYScale() * 100) / 2;
-		break;
-	default:
-		anchorOffsetX = 0;
-		anchorOffsetY = 0;
-		break;
-	}
+	if (!gameObject->getIsActive()) return;
 
 	glPushMatrix();
 
 	// Translation
-	Vector3 translationVector(localTransform->getXPosition() + anchorOffsetX, localTransform->getYPosition() + anchorOffsetY, 0.0f);
+	Vector3 translationVector(localTransform->getXPosition(), localTransform->getYPosition(), 0.0f);
 	Matrix4 translationMatrix = Matrix4::translate(translationVector);
-	glMultMatrixf(translationMatrix.data);
+
+	// Rotation
+	float angleDegrees = localTransform->getRotation();
+	Matrix4 rotationMatrix = Matrix4::rotate(angleDegrees, Vector3(0.0f, 0.0f, 1.0f));
+
 
 	// Scale
 	Vector3 scaleVector(localTransform->getXScale(), localTransform->getYScale(), 1.0f);
 	Matrix4 scaleMatrix = Matrix4::scale(scaleVector);
-	glMultMatrixf(scaleMatrix.data);
-
-	// Rotation
-	float angleDegrees = localTransform->getRotation();
-	Vector3 rotationAxis(0.0f, 0.0f, 1.0f);
-	Matrix4 rotationMatrix = Matrix4::rotate(angleDegrees, rotationAxis);
-	glMultMatrixf(rotationMatrix.data);
 
 
-	if (defaultShape == Quad)
-	{
+	Matrix4 allMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+	glMultMatrixf(allMatrix.data);
+
+
+	switch (defaultShape) {
+	case Quad:
 		drawQuad();
-	}
-	else if (defaultShape == Triangle)
-	{
+		break;
+	case Triangle:
 		drawTriangle();
+		break;
+	case Circle:
+		drawCircle(circlePartition, circleRadius);
+		break;
 	}
 
 
@@ -95,6 +75,12 @@ void RendererComponent::setRGB(float nR, float nG, float nB)
 void RendererComponent::getRGB()
 {
 	std::cout << "R : " << r << ", G : " << g << ", B : " << b << std::endl;
+}
+
+void RendererComponent::setCircleDrawValues(int circlePartition, float circleRadius)
+{
+	this->circlePartition = circlePartition;
+	this->circleRadius = circleRadius;
 }
 
 void RendererComponent::setShapeToDraw(ShapeToDraw value)
@@ -121,6 +107,20 @@ void RendererComponent::drawTriangle()
 	glVertex3f(-50, -50, 0);
 	glVertex3f(50, -50, 0);
 	glEnd();
+}
+void RendererComponent::drawCircle(int faceCount, float radius)
+{
+	float faceAngle = (360 / abs(faceCount)) * (M_PI / 180);
+
+	glBegin(GL_TRIANGLE_STRIP);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	for (int x = 0; x <= faceCount; x++)
+	{
+		glVertex3f(radius * sin(faceAngle * x), radius * cos(faceAngle * x), 0.0f);
+		glVertex3f(0 * sin(faceAngle * x), 0 * cos(faceAngle * x), 0.0f);
+	}
+	glEnd();
+
 }
 #pragma endregion
 

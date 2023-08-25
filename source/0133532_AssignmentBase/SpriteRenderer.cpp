@@ -28,6 +28,8 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::render()
 {
+	if (!gameObject->getIsActive()) return;
+
 	glPushMatrix();
 
 	//Offset by local size and height so different sprite renderers have different local w and h

@@ -8,14 +8,14 @@
 #include <iostream>
 
 #include "BaseComponent.h"
-
+#include "UserTags.h"
 
 class TransformComponent;
 class RendererComponent;
 class GameObject
 {
 public:
-	GameObject(std::string nName = "New_GameObject");
+	GameObject(std::string nName = "New_GameObject", UserTag goTag = Default);
 	~GameObject();
 
 	template <
@@ -68,19 +68,25 @@ public:
 	std::string getName() const;
 	void setName(std::string value);
 
+	UserTag getTag() const;
+	void setTag(UserTag value);
+
 	void destroy();
 	bool shouldDestroy();
 
+	void setIsActive(bool value);
+	bool getIsActive();
+
 	TransformComponent* transform = nullptr;
-	RendererComponent* renderer = nullptr;
 
 protected:
 	std::string name;
-	
+	UserTag tag;
 
 private:
 	std::vector<BaseComponent*> components;
 	std::vector<BaseComponent*> componentsJustAdded;
 	bool flaggedForDeletion = false;
+	bool isActive = true;
 
 };

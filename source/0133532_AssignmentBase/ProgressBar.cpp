@@ -19,6 +19,7 @@ void ProgressBar::update(float deltaTime) {}
 
 void ProgressBar::render()
 {
+	if (!gameObject->getIsActive()) return;
 	drawProgressBar(barLength, barHeight);
 }
 

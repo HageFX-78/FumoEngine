@@ -1,7 +1,10 @@
-#include "CircleCollider.h"
+#define _USE_MATH_DEFINES
 #include <cmath>
 
-CircleCollider::CircleCollider(GameObject* go, bool isVisible, float rad) : BaseComponent(go), showCollider(isVisible), radius(rad)
+#include "CircleCollider.h"
+#include "GameObjectCollection.h"
+
+CircleCollider::CircleCollider(GameObject* go, float rad, bool isVisible) : BaseComponent(go), radius(rad), showCollider(isVisible)
 {
 	localTransform = go->transform;
 }
@@ -12,11 +15,84 @@ CircleCollider::~CircleCollider()
 
 void CircleCollider::update(float deltaTime)
 {
+	if (!gameObject->getIsActive()) return;
+
+	for (GameObject* sceneObj : GameObjectCollection::getCurrentSceneGameObjects())
+	{
+		for (UserTag tag : getCollidableTags())
+		{
+			if (!sceneObj->getIsActive() || !sceneObj->getComponent<CircleCollider>() || sceneObj->getTag() != tag) continue;
+
+			if (this->checkCircleCollision(*sceneObj->getComponent<CircleCollider>()))
+			{
+				if (!isColliding)
+				{
+					isColliding = true;
+					OnCollisionEnter(*sceneObj);
+				}
+
+				if (isColliding) OnCollisionStay(*sceneObj);
+			}
+			else if (!this->checkCircleCollision(*sceneObj->getComponent<CircleCollider>()))
+			{
+				if (isColliding)
+				{
+					isColliding = false;
+					OnCollisionExit(*sceneObj);
+				}
+			}
+		}
+
+	}
+
 
 }
 
 void CircleCollider::render()
 {
+	if (!gameObject->getIsActive()) return;
+
+	if (showCollider)
+	{
+		glPushMatrix();
+
+		// Translation
+		Vector3 translationVector(localTransform->getXPosition(), localTransform->getYPosition(), 0.0f);
+		Matrix4 translationMatrix = Matrix4::translate(translationVector);
+
+		// Rotation
+		float angleDegrees = localTransform->getRotation();
+		Matrix4 rotationMatrix = Matrix4::rotate(angleDegrees, Vector3(0.0f, 0.0f, 1.0f));
+
+
+		// Scale
+		Vector3 scaleVector(localTransform->getXScale(), localTransform->getYScale(), 1.0f);
+		Matrix4 scaleMatrix = Matrix4::scale(scaleVector);
+
+
+		Matrix4 allMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+		glMultMatrixf(allMatrix.data);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+		float faceAngle = (360 / abs(12)) * (M_PI / 180);
+
+		glBegin(GL_TRIANGLE_STRIP);
+		glColor4f(102.0f / 255.0f, 1.0f, 46.0f / 255.0f, 0.3f);
+		for (int x = 0; x <= 12; x++)
+		{
+			glVertex3f(radius * sin(faceAngle * x), radius * cos(faceAngle * x), 0.0f);
+			glVertex3f(0 * sin(faceAngle * x), 0 * cos(faceAngle * x), 0.0f);
+		}
+		glEnd();
+
+
+		glDisable(GL_BLEND);
+
+		glPopMatrix();
+	}
 }
 void CircleCollider::setRadius(float rad)
 {
@@ -30,6 +106,21 @@ float CircleCollider::getRadius() const
 Vector2 CircleCollider::getCenter() const
 {
 	return Vector2(localTransform->getXPosition(), localTransform->getYPosition());
+}
+
+void CircleCollider::addCollidableTag(UserTag tag)
+{
+	collidables.insert(tag);
+}
+
+void CircleCollider::removeCollidableTag(UserTag tag)
+{
+	collidables.erase(tag);
+}
+
+std::unordered_set<UserTag> CircleCollider::getCollidableTags()
+{
+	return collidables;
 }
 
 void CircleCollider::setIsColliding(bool value)
@@ -67,6 +158,12 @@ bool CircleCollider::checkCircleCollision(const CircleCollider& other)
 
 	return squaredDistance <= squaredRadSum;
 }
+
+void CircleCollider::OnCollisionEnter(GameObject& other) {}
+
+void CircleCollider::OnCollisionExit(GameObject& other) {}
+
+void CircleCollider::OnCollisionStay(GameObject& other) {}
 
 
 

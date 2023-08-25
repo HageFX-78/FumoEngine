@@ -31,17 +31,9 @@ GameObject* GameObjectCollection::find(std::string name)
 	return nullptr;
 }
 
-//Find any object that is in the scene, for showcase purpose
-GameObject* GameObjectCollection::findExistingObject()
+std::unordered_set<GameObject*> GameObjectCollection::getCurrentSceneGameObjects()
 {
-	for (auto go : gameObjects)
-	{
-		if (!go->shouldDestroy())
-		{
-			return go;
-		}
-	}
-	return nullptr;
+	return gameObjects;
 }
 
 void GameObjectCollection::update(float deltaTime)

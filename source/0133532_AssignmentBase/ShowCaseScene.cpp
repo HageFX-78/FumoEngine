@@ -8,33 +8,50 @@
 #include "SceneStateMachine.h"
 #include "GameObjectCollection.h"
 
+#include "RendererComponent.h"
 #include "SpriteRenderer.h"
 #include "ProgressBar.h"
 #include "CircleCollider.h"
 
-//Local variable and functions forward declared
+
+class EnemyCollider : public CircleCollider {
+public:
+	EnemyCollider(GameObject* go, int& plives, float rad = 30.0f, bool isVisible = false) : CircleCollider(go, rad, isVisible), playerLives(plives) {
+	}
+
+	void OnCollisionEnter(GameObject& other) override {
+		std::cout << "Collided object name : " << other.getName() << std::endl;
+	}
+
+private:
+	int& playerLives;
+};
+
 std::string ShowCaseScene::getName() const {
 	return "ShowCaseScene";
 }
 
 void ShowCaseScene::initialize() {
-	/*player = new GameObject();
-	player->addComponent<SpriteRenderer>("../assets/player.png", Vector4(0.0f, 255.0f, 0.0f, 0.5f), Vector2(0, 0), Vector2(0.05f, 0.05f));
-	player->addComponent<CircleCollider>(false, 15.0f);*/
+	player = new GameObject("Player", Player);
+	player->addComponent<SpriteRenderer>("../assets/player.png", Vector4(0.0f, 255.0f, 0.0f, 0.5f), Vector2(0.5f, 0.5f), Vector2(0.1f, 0.1f));
+	player->addComponent<CircleCollider>(15.0f, true);
 
-	go1 = new GameObject();
-	go1->addComponent<SpriteRenderer>("../assets/herta.png", Vector4(255.0f, 255.0f, 255.0f, 0.5f));
-	go1->getComponent<SpriteRenderer>()->setSize(0.1f, 0.1f);
-	go1->getComponent<SpriteRenderer>()->setPivot(0.0f, 0.0f);
-	go1->addComponent<CircleCollider>();
 
-	/*go2 = new GameObject();
-	go2->addComponent<SpriteRenderer>("../assets/herta.png");
-	go2->getComponent<SpriteRenderer>()->setSize(0.05f, 0.05f);*/
+	go1 = new GameObject("Fumo", Enemy);
+	go1->addComponent<SpriteRenderer>("../assets/fumo.png", Vector4(255.0f, 255.0f, 255.0f, 0.8f));
+	go1->addComponent<EnemyCollider>(playerLives, 30.0f, true);
+	go1->getComponent<EnemyCollider>()->addCollidableTag(Player);
+	go1->getComponent<EnemyCollider>()->addCollidableTag(Bullet);
+	go1->transform->setXPosition(-300.0f);
 
-	progressbar = new GameObject();
-	progressbar->addComponent<ProgressBar>();
-	//progressbar->getComponent<ProgressBar>()->setPivot(-progressbar->getComponent<ProgressBar>()->getBarLength()/2, 0);
+
+	/*for (int x = 0; x < 10; x++)
+	{
+		GameObject* newBullet = new GameObject();
+		newBullet->addComponent<SpriteRenderer>();
+		newBullet->addComponent<CircleCollider>(10.0f);
+		bulletPool.push(newBullet);
+	}*/
 }
 
 void ShowCaseScene::on_activate() {
@@ -42,10 +59,6 @@ void ShowCaseScene::on_activate() {
 }
 
 void ShowCaseScene::on_update(float deltaTime) {
-	testVal += deltaTime * 100;
-
-	progressbar->transform->setRotation(testVal);
-
 	if (player)
 	{
 		float angleInDegrees = std::atan2(Input::getMousePositionCentered().y - player->transform->getYPosition(),
@@ -53,25 +66,6 @@ void ShowCaseScene::on_update(float deltaTime) {
 
 		player->transform->setRotation(angleInDegrees - 90);
 	}
-
-	/*if (player->getComponent<CircleCollider>()->checkCircleCollision(*go1->getComponent<CircleCollider>()))
-	{
-		if (!player->getComponent<CircleCollider>()->getIsColliding())
-		{
-			std::cout << " Just Collided! " << std::endl;
-			player->getComponent<CircleCollider>()->setIsColliding(true);
-		}
-	}
-	else
-	{
-		if (player->getComponent<CircleCollider>()->getIsColliding())
-		{
-			std::cout << " Collider Exited " << std::endl;
-			player->getComponent<CircleCollider>()->setIsColliding(false);
-		}
-	}*/
-
-
 
 	//  - - - -  Scene Input handling
 	if (Input::getKey(GLFW_KEY_D))
@@ -91,10 +85,26 @@ void ShowCaseScene::on_update(float deltaTime) {
 		player->transform->setYPosition(player->transform->getYPosition() - 100.0f * deltaTime);
 	}
 
-	if (Input::getKey(GLFW_KEY_Q))
+	if (Input::getMouseButtonDown(GLFW_MOUSE_BUTTON_1))
 	{
-		go1->destroy();
+
 	}
+
+	if (Input::getKeyDown(GLFW_KEY_Q))
+	{
+		player->setIsActive(!player->getIsActive());
+	}
+	if (Input::getKeyDown(GLFW_KEY_E))
+	{
+		std::cout << goPool.size() << std::endl;
+
+		for (GameObject* gob : goPool)
+		{
+			std::cout << gob->getIsActive() << std::endl;
+		}
+	}
+
+
+	
 }
 
-//Local logic functons

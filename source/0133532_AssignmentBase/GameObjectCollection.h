@@ -12,13 +12,12 @@ public:
 	static void add(GameObject* go);
 	static GameObject* add(std::string name);
 	static GameObject* find(std::string name);
-	static GameObject* findExistingObject();
+
+	static std::unordered_set<GameObject*> getCurrentSceneGameObjects();
 
 	static void update(float deltaTime);
 	static void render();
 	static void dispose();
-
-
 private:
 
 	static std::unordered_set<GameObject*> gameObjects;

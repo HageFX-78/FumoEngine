@@ -9,31 +9,35 @@
 enum ShapeToDraw
 {
 	Quad,
-	Triangle
+	Triangle,
+	Circle
 };
 
 class RendererComponent : public BaseComponent
 {
 public:
-	RendererComponent(GameObject* go);
+	RendererComponent(GameObject* go, ShapeToDraw defShape = Quad);
 	~RendererComponent();
-	void awake() override;
-	void start() override;
 	void update(float deltaTime) override;
 	void render() override;
 
 	void setRGB(float r, float g, float b);
 	void getRGB();
 
+	void setCircleDrawValues(int circlePartition, float circleRadius);
+
 	void setShapeToDraw(ShapeToDraw value);
 
 protected:
 	float r, g, b;
 	TransformComponent* localTransform;
-	float anchorOffsetX, anchorOffsetY;
-	ShapeToDraw defaultShape = Quad;
+	ShapeToDraw defaultShape;
+
+	int circlePartition = 5;
+	float circleRadius = 5.0f;
 
 	void drawQuad();
 	void drawTriangle();
+	void drawCircle(int faceCount, float radius);
 };
 

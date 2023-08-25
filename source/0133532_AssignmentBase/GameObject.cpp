@@ -5,11 +5,11 @@
 
 #include <iostream>
 
-GameObject::GameObject(std::string nName) : name(nName){
+GameObject::GameObject(std::string nName, UserTag goTag) : name(nName), tag(goTag) {
 	transform = addComponent<TransformComponent>();
-	//renderer = addComponent<RendererComponent>();
 
 	GameObjectCollection::add(this);
+
 	std::cout << "<*> Game Object " << name << " is Instantiated" << std::endl;
 }
 GameObject::~GameObject()
@@ -23,7 +23,7 @@ GameObject::~GameObject()
 		}
 		components.clear();
 	}
-	
+
 }
 void GameObject::runComponentAwake()
 {
@@ -82,6 +82,16 @@ void GameObject::setName(std::string newName)
 	name = newName;
 }
 
+UserTag GameObject::getTag() const
+{
+	return tag;
+}
+
+void GameObject::setTag(UserTag value)
+{
+	tag = value;
+}
+
 void GameObject::destroy()
 {
 	flaggedForDeletion = true;
@@ -90,4 +100,14 @@ void GameObject::destroy()
 bool GameObject::shouldDestroy()
 {
 	return flaggedForDeletion;
+}
+
+void GameObject::setIsActive(bool value)
+{
+	isActive = value;
+}
+
+bool GameObject::getIsActive()
+{
+	return isActive;
 }

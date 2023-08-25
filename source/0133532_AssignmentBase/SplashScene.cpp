@@ -22,8 +22,6 @@ void SplashScene::initialize()  {
 
 
 	go2 = new GameObject("Triangle");
-	go2->renderer->setShapeToDraw(Triangle);
-	go2->renderer->setRGB(59.0f, 122.0f, 87.0f);
 	go2->transform->setYPosition(50);
 	go2->transform->setRotation(270);
 
