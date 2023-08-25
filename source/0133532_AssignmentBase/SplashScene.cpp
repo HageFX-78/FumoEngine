@@ -14,7 +14,6 @@ std::string SplashScene::getName() const {
 }
 void SplashScene::initialize()  {
 	go1 = new GameObject("TestLoadingBar");
-	go1->transform->setAnchorPosition(left);
 	go1->transform->setXPosition(-200);
 	go1->transform->setYPosition(-50);
 	go1->transform->setXScale(0.0);

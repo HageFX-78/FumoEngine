@@ -17,35 +17,52 @@ void CircleCollider::update(float deltaTime)
 {
 	if (!gameObject->getIsActive()) return;
 
+	std::unordered_set<GameObject*> currentCollidingObjects;
+
 	for (GameObject* sceneObj : GameObjectCollection::getCurrentSceneGameObjects())
 	{
-		for (UserTag tag : getCollidableTags())
-		{
-			if (!sceneObj->getIsActive() || !sceneObj->getComponent<CircleCollider>() || sceneObj->getTag() != tag) continue;
+		if (sceneObj == gameObject || !sceneObj->getIsActive() || !sceneObj->getComponent<CircleCollider>()) continue;
 
-			if (this->checkCircleCollision(*sceneObj->getComponent<CircleCollider>()))
+		for (UserTag tag : collidables)
+		{
+			if (sceneObj->getTag() != tag) continue;
+
+			bool isInCircle = checkCircleCollision(*sceneObj->getComponent<CircleCollider>());
+			if (isInCircle)
 			{
 				if (!isColliding)
 				{
 					isColliding = true;
+					collidedCache.insert(sceneObj);
+					currentCollidingObjects.insert(sceneObj);
 					OnCollisionEnter(*sceneObj);
-				}
-
-				if (isColliding) OnCollisionStay(*sceneObj);
-			}
-			else if (!this->checkCircleCollision(*sceneObj->getComponent<CircleCollider>()))
-			{
-				if (isColliding)
-				{
-					isColliding = false;
-					OnCollisionExit(*sceneObj);
 				}
 			}
 		}
-
 	}
 
+	for (GameObject* cc : collidedCache)
+	{
+		bool isInCircle = checkCircleCollision(*cc->getComponent<CircleCollider>());
+		if (isInCircle)
+		{
+			if (isColliding)
+			{
+				OnCollisionStay(*cc);
+			}
+			currentCollidingObjects.insert(cc); // Add to the current colliding set
+		}
+		else
+		{
+			isColliding = false;
+			OnCollisionExit(*cc);
+		}
+	}
 
+	collidedCache = currentCollidingObjects;
+
+	/*if(gameObject->getTag()==Enemy)
+		std::cout << "Current status of " << gameObject->getName() << " with col is  = " << isColliding << std::endl;*/
 }
 
 void CircleCollider::render()
@@ -80,7 +97,7 @@ void CircleCollider::render()
 		float faceAngle = (360 / abs(12)) * (M_PI / 180);
 
 		glBegin(GL_TRIANGLE_STRIP);
-		glColor4f(102.0f / 255.0f, 1.0f, 46.0f / 255.0f, 0.3f);
+		glColor4f(102.0f / 255.0f, 1.0f, 46.0f / 255.0f, 0.5f);
 		for (int x = 0; x <= 12; x++)
 		{
 			glVertex3f(radius * sin(faceAngle * x), radius * cos(faceAngle * x), 0.0f);

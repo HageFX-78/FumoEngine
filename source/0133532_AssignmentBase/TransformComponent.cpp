@@ -9,6 +9,12 @@ TransformComponent::~TransformComponent() {
 	std::cout << "<!> Transform component of " << gameObject->getName() << " is destroyed" << std::endl;
 }
 
+void TransformComponent::update(float deltaTime)
+{
+	xPosition += velocity.x * deltaTime;
+	yPosition += velocity.y * deltaTime;
+}
+
 // Current Component Functions
 #pragma region This Component Functions
 
@@ -20,6 +26,31 @@ void TransformComponent::setYPosition(float value)
 {
 	yPosition = value;
 }
+void TransformComponent::setPosition(float x, float y)
+{
+	xPosition = x;
+	yPosition = y;
+}
+void TransformComponent::setPosition(Vector2 value)
+{
+	xPosition = value.x;
+	yPosition = value.y;
+}
+float TransformComponent::getXPosition() const
+{
+	return xPosition;
+}
+float TransformComponent::getYPosition() const
+{
+	return yPosition;
+}
+Vector2 TransformComponent::getPosition() const
+{
+	return Vector2(xPosition, yPosition);
+}
+
+
+
 void TransformComponent::setXScale(float value)
 {
 	xScale = value;
@@ -27,21 +58,6 @@ void TransformComponent::setXScale(float value)
 void TransformComponent::setYScale(float value)
 {
 	yScale = value;
-}
-void TransformComponent::setRotation(float value)
-{
-	rotation = value;
-}
-
-
-float TransformComponent::getXPosition() const
-{
-	return xPosition;
-}
-
-float TransformComponent::getYPosition() const
-{
-	return yPosition;
 }
 float TransformComponent::getXScale() const
 {
@@ -52,18 +68,28 @@ float TransformComponent::getYScale() const
 	return yScale;
 }
 
+
+
+void TransformComponent::setRotation(float value)
+{
+	rotation = value;
+}
 float TransformComponent::getRotation() const
 {
 	return rotation;
 }
-void TransformComponent::setAnchorPosition(Anchor value)
+
+
+
+void TransformComponent::setVelocity(Vector2 value)
 {
-	anchor = value;
+	velocity = value;
 }
-Anchor TransformComponent::getAnchorPosition() const
+Vector2 TransformComponent::getVelocity() const
 {
-	return anchor;
+	return velocity;
 }
+
 #pragma endregion
 
 

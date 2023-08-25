@@ -37,6 +37,7 @@ public:
 
 protected:
 	std::unordered_set<UserTag> collidables = {Default};
+	std::unordered_set<GameObject*> collidedCache;
 
 	TransformComponent* localTransform;
 	float radius;

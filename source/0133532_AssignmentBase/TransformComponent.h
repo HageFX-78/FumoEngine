@@ -1,16 +1,12 @@
 #pragma once
 
 #include <iostream>
+#include "angle_util/vector.h"
+
+
 #include "GameObject.h"
 #include "BaseComponent.h"
 
-enum Anchor {
-	center,
-	left,
-	right,
-	top,
-	bottom
-};
 
 class TransformComponent : public BaseComponent
 {
@@ -18,10 +14,16 @@ public:
 	TransformComponent(GameObject* go);
 	~TransformComponent();
 
+	void update(float deltaTime) override;
+
 	void setXPosition(float value);
 	void setYPosition(float value);
+	void setPosition(float x, float y);
+	void setPosition(Vector2 value);
+
 	float getXPosition() const;
 	float getYPosition() const;
+	Vector2 getPosition() const;
 
 	void setXScale(float value);
 	void setYScale(float value);
@@ -31,12 +33,12 @@ public:
 	void setRotation(float value);
 	float getRotation() const;
 
-	void setAnchorPosition(Anchor value);
-	Anchor getAnchorPosition() const;
-
+	void setVelocity(Vector2 value);
+	Vector2 getVelocity() const;
 	
 protected:
 	float xPosition = 0, yPosition = 0, xScale = 1, yScale = 1, rotation = 0;
-	Anchor anchor = center;
+
+	Vector2 velocity;
 };
 

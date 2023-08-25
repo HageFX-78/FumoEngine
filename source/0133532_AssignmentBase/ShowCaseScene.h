@@ -10,24 +10,29 @@
 class ShowCaseScene : public BaseScene {
 public:
 	std::string getName() const override;
+
+	static void EnqueueBullet(GameObject* obj);
+	static GameObject* DequeueBullet();
+
+	static void EnqueueEnemy(GameObject* obj);
+	static GameObject* DequeueEnemy();
+
+	static void DebugSize();
+
 	int playerLives = 3;
+
 protected:
 	void initialize() override;
 	void on_activate() override;
 	void on_update(float deltaTime) override;
-
-
-	void SceneCollisionCheck();
-
+	
 	
 private:
-	
-
 	GameObject* go1;
+	GameObject* go2;
 	GameObject* player;
 
-	std::vector<GameObject*> goPool;//ALl objects in the scene
-	std::queue<GameObject*> bulletPool;
-	std::queue<GameObject*> enemyPool;
+	static std::queue<GameObject*> bulletPool;
+	static std::queue<GameObject*> enemyPool;
 };
 
