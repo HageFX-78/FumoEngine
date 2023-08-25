@@ -8,20 +8,25 @@
 #include "angle_util/matrix.h"
 #include "angle_util/vector.h"
 
-class SplashScene : public BaseScene {
-public:
-	std::string getName() const override;
+namespace Fumo = FumoEngine;
+namespace Showcase
+{
+	class SplashScene : public Fumo::BaseScene {
+	public:
+		std::string getName() const override;
 
-protected:
-	void initialize() override;
-	void on_activate() override;
-	void on_update(float deltaTime) override;
-	void on_render() override;
+	protected:
+		void initialize() override;
+		void on_activate() override;
+		void on_update(float deltaTime) override;
+		void on_render() override;
 
-	float time;
-	float sceneSwitchTime = 10.0f;
-private:
-	GameObject* go1;
-	GameObject* go2;
-};
+		float time;
+		float sceneSwitchTime = 10.0f;
+	private:
+		Fumo::GameObject* go1;
+		Fumo::GameObject* go2;
+	};
+}
+
 

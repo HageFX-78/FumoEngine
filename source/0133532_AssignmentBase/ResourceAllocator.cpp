@@ -1,3 +1,5 @@
 #include "ResourceAllocator.h"
-
-std::map<std::string, void*> ResourceAllocator::resourceMap;
+namespace FumoEngine
+{
+	std::map<std::string, void*> ResourceAllocator::resourceMap;
+}

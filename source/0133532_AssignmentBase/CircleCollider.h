@@ -8,42 +8,46 @@
 #include "BaseComponent.h"
 #include "TransformComponent.h"
 
-class CircleCollider : public BaseComponent
+namespace FumoEngine
 {
-public:
-	CircleCollider(GameObject* go,  float rad = 5.0f, bool isVisible = false);
-	~CircleCollider();
-	void update(float deltaTime) override;
-	void render() override;
+	class CircleCollider : public BaseComponent
+	{
+	public:
+		CircleCollider(GameObject* go, float rad = 5.0f, bool isVisible = false);
+		~CircleCollider();
+		void update(float deltaTime) override;
+		void render() override;
 
-	void setRadius(float rad);
-	float getRadius() const;
+		void setRadius(float rad);
+		float getRadius() const;
 
-	Vector2 getCenter() const;
+		Vector2 getCenter() const;
 
-	void addCollidableTag(UserTag typeName);
-	void removeCollidableTag(UserTag typeName);
-	std::unordered_set<UserTag> getCollidableTags();
+		void addCollidableTag(UserTag typeName);
+		void removeCollidableTag(UserTag typeName);
+		std::unordered_set<UserTag> getCollidableTags();
 
-	void setIsColliding(bool value);
-	bool getIsColliding() const;
+		void setIsColliding(bool value);
+		bool getIsColliding() const;
 
-	bool containsPoint(const Vector2& point) const;
-	bool checkCircleCollision(const CircleCollider& other);
-	
-	virtual void OnCollisionEnter(GameObject& other);
-	virtual void OnCollisionExit(GameObject& other);
-	virtual void OnCollisionStay(GameObject& other);
+		bool containsPoint(const Vector2& point) const;
+		bool checkCircleCollision(const CircleCollider& other);
 
-protected:
-	std::unordered_set<UserTag> collidables = {Default};
-	std::unordered_set<GameObject*> collidedCache;
+		virtual void OnCollisionEnter(GameObject& other);
+		virtual void OnCollisionExit(GameObject& other);
+		virtual void OnCollisionStay(GameObject& other);
 
-	TransformComponent* localTransform;
-	float radius;
-	
-	bool isColliding = false;
-	bool showCollider = false;
+	protected:
+		std::unordered_set<UserTag> collidables = { Default };
+		std::unordered_set<GameObject*> collidedCache;
 
-};
+		TransformComponent* localTransform;
+		float radius;
+
+		bool isColliding = false;
+		bool showCollider = false;
+
+	};
+}
+
 

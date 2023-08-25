@@ -4,47 +4,51 @@
 #include <iostream>
 #include <vector>
 
-class SceneStateMachine
+namespace FumoEngine
 {
-public:
-	SceneStateMachine() = delete; // disallow construction of class instance
+	class SceneStateMachine
+	{
+	public:
+		SceneStateMachine() = delete; // disallow construction of class instance
 
-	template<typename T, typename = typename std::enable_if<std::is_base_of<BaseScene, T>::value>::type>
-	static T* addScene() {
-		T* newScene = new T();
+		template<typename T, typename = typename std::enable_if<std::is_base_of<BaseScene, T>::value>::type>
+		static T* addScene() {
+			T* newScene = new T();
 
-		auto pair = std::make_pair(newScene->getName(), newScene);
-		std::pair < std::unordered_map<std::string, BaseScene*>::iterator, bool > result = scenes.insert(pair);
+			auto pair = std::make_pair(newScene->getName(), newScene);
+			std::pair < std::unordered_map<std::string, BaseScene*>::iterator, bool > result = scenes.insert(pair);
 
-		if (result.second) {
-			std::cout << "Scene successfully added "<< newScene->getName() << std::endl;
+			if (result.second) {
+				std::cout << "Scene successfully added " << newScene->getName() << std::endl;
 
-			sceneIdCounter++;
+				sceneIdCounter++;
 
-			return newScene;
+				return newScene;
+			}
+			else {
+				std::cout << "Failed to add scene " << newScene->getName() << std::endl;
+				delete newScene;
+				return nullptr;
+			}
 		}
-		else {
-			std::cout << "Failed to add scene "<< newScene->getName() << std::endl;
-			delete newScene;
-			return nullptr;
-		}
-	}
 
-	static void loadScene(const unsigned int index);
-	static void loadScene(const std::string name);
-	static void update(float deltaTime);
-	static void render();
-	static void dispose();
+		static void loadScene(const unsigned int index);
+		static void loadScene(const std::string name);
+		static void update(float deltaTime);
+		static void render();
+		static void dispose();
 
-	static std::string getCurrentSceneName();
+		static std::string getCurrentSceneName();
 
-private:
-	// sceneMap
-	static std::unordered_map<std::string, BaseScene*> scenes;
+	private:
+		// sceneMap
+		static std::unordered_map<std::string, BaseScene*> scenes;
 
-	// currentScene
-	static BaseScene* currentScene;
+		// currentScene
+		static BaseScene* currentScene;
 
-	// sceneIdCounter
-	static unsigned int sceneIdCounter;
-};
+		// sceneIdCounter
+		static unsigned int sceneIdCounter;
+	};
+}
+
