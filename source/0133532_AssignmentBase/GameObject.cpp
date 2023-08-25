@@ -9,12 +9,9 @@ GameObject::GameObject(std::string nName, UserTag goTag) : name(nName), tag(goTa
 	transform = addComponent<TransformComponent>();
 
 	GameObjectCollection::add(this);
-
-	std::cout << "<*> Game Object " << name << " is Instantiated" << std::endl;
 }
 GameObject::~GameObject()
 {
-	std::cout << "<!> Game Object " << name << " is Deleted" << std::endl;
 	if (!components.empty())
 	{
 		for (auto component : components)

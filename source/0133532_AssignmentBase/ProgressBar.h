@@ -12,21 +12,25 @@
 class ProgressBar : public BaseComponent
 {
 public:
-	ProgressBar(GameObject* go, float brLength = 500.0f, float brHeight = 30.0f, float prog = 0.7f);
+	ProgressBar(GameObject* go, float brLength = 500.0f, float brHeight = 30.0f, float prog = 0.5f);
 	~ProgressBar();
 	void update(float deltaTime) override;
 	void render() override;
 
 	void setBackDropColor(float r, float g, float b, float a);
-	void getBackDropColor();
+	Vector4 getBackDropColor();
 
 	void setBarColor(float r, float g, float b, float a);
-	void getBarColor();
+	Vector4 getBarColor();
+
+	void setBothBarOpacity(float a);
 
 	void setPivot(float x, float y);
 
-	float getBarLength();
+	void setProgress(float value);
+	float getProgress();
 
+	float getBarLength();
 protected:
 	//colors
 	Vector4 progressBarColor;

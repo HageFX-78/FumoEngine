@@ -57,7 +57,8 @@ std::unordered_map<int, bool> Input::key_states = {
 		{ GLFW_KEY_RIGHT, false },
 		{ GLFW_KEY_SPACE, false },
 		{ GLFW_KEY_ESCAPE, false},
-		{ GLFW_KEY_ENTER, false}
+		{ GLFW_KEY_ENTER, false},
+		{ GLFW_KEY_TAB, false}
 };
 std::unordered_map<int, bool> Input::previous_key_states = key_states;
 
@@ -229,6 +230,8 @@ std::string Input::getKeyNameFiltered(int key) {
 	case GLFW_KEY_DOWN: return "Arrow Down";
 	case GLFW_KEY_LEFT: return "Arrow Left";
 	case GLFW_KEY_RIGHT: return "Arrow Right";
+
+	case GLFW_KEY_TAB: return "Tab";
 	default: return "Unknown Key";
 	}
 }

@@ -3,10 +3,8 @@
 TransformComponent::TransformComponent(GameObject* go) : BaseComponent(go) {
 	allowMultiple = false;//Set to not be possible to be added multiple times
 
-	std::cout << "<@> Created Transform Component on " << gameObject->getName() << std::endl;
 }
 TransformComponent::~TransformComponent() {
-	std::cout << "<!> Transform component of " << gameObject->getName() << " is destroyed" << std::endl;
 }
 
 void TransformComponent::update(float deltaTime)
@@ -59,6 +57,16 @@ void TransformComponent::setYScale(float value)
 {
 	yScale = value;
 }
+void TransformComponent::setScale(float x, float y)
+{
+	xScale = x;
+	yScale = y;
+}
+void TransformComponent::setScale(Vector2 value)
+{
+	xScale = value.x;
+	yScale = value.y;
+}
 float TransformComponent::getXScale() const
 {
 	return xScale;
@@ -66,6 +74,11 @@ float TransformComponent::getXScale() const
 float TransformComponent::getYScale() const
 {
 	return yScale;
+}
+
+Vector2 TransformComponent::getScale() const
+{
+	return Vector2(xScale, yScale);
 }
 
 

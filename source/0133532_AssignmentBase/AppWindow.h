@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 
+#include "angle_util/vector.h"
 #include "WindowEventData.h"
 
 enum WindowEvents {
@@ -31,6 +32,7 @@ class AppWindow
 		void setWindowEventCallback(const WindowEventCallbackFn& fn);
 
 		GLFWwindow* getWindowPtr();
+		Vector2 getWindowSize();
 	private:
 		GLFWwindow* window;
 		WindowData data;

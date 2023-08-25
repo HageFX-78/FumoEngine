@@ -15,7 +15,7 @@ CircleCollider::~CircleCollider()
 
 void CircleCollider::update(float deltaTime)
 {
-	if (!gameObject->getIsActive()) return;
+	if (!isColliding && !collidedCache.empty()) collidedCache.clear();//Clear cache if leftover from before
 
 	std::unordered_set<GameObject*> currentCollidingObjects;
 
@@ -34,7 +34,6 @@ void CircleCollider::update(float deltaTime)
 				{
 					isColliding = true;
 					collidedCache.insert(sceneObj);
-					currentCollidingObjects.insert(sceneObj);
 					OnCollisionEnter(*sceneObj);
 				}
 			}
@@ -46,11 +45,9 @@ void CircleCollider::update(float deltaTime)
 		bool isInCircle = checkCircleCollision(*cc->getComponent<CircleCollider>());
 		if (isInCircle)
 		{
-			if (isColliding)
-			{
-				OnCollisionStay(*cc);
-			}
-			currentCollidingObjects.insert(cc); // Add to the current colliding set
+
+			OnCollisionStay(*cc);
+			currentCollidingObjects.insert(cc); //Latest collided objects list
 		}
 		else
 		{
@@ -60,15 +57,10 @@ void CircleCollider::update(float deltaTime)
 	}
 
 	collidedCache = currentCollidingObjects;
-
-	/*if(gameObject->getTag()==Enemy)
-		std::cout << "Current status of " << gameObject->getName() << " with col is  = " << isColliding << std::endl;*/
 }
 
 void CircleCollider::render()
 {
-	if (!gameObject->getIsActive()) return;
-
 	if (showCollider)
 	{
 		glPushMatrix();

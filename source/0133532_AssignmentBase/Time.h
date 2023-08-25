@@ -11,10 +11,14 @@ public:
 	static float getDeltaTime();
 	static float getProcessedTime();
 	static std::string getCurrentFPS();
+
+	static float getTimeScale();
+	static void setTimeScale(float value);
 private:
 	static float gameTime;
 	static float prevTime;
 	static float deltaTime;
 	static float frameTime;
+	static float timeScale;
 };
 

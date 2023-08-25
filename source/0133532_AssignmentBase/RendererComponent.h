@@ -1,10 +1,13 @@
 #pragma once
 
 #include <iostream>
+#include <glad/glad.h>
+
 #include "GameObject.h"
 #include "BaseComponent.h"
-#include <glad/glad.h>
 #include "TransformComponent.h"
+
+
 
 enum ShapeToDraw
 {
@@ -22,7 +25,7 @@ public:
 	void render() override;
 
 	void setRGB(float r, float g, float b);
-	void getRGB();
+	Vector3 getRGB();
 
 	void setCircleDrawValues(int circlePartition, float circleRadius);
 

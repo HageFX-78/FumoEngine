@@ -10,5 +10,4 @@ int main()
 	app.initialize(800, 800, "GL window");
 	app.run();
 	app.shutdown();
-	
 }

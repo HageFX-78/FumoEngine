@@ -17,7 +17,6 @@ public:
 		if (existingResource)
 		{
 			existingResource->increaseRefCount();
-			//std::cout << existingResource->getRefCount() << " is ref count for this" << existingResource->getTextureName() << std::endl;
 			return existingResource;
 
 		}
@@ -26,7 +25,6 @@ public:
 			ResourceType* newResrc = ResourceType::createResource(path);
 			newResrc->increaseRefCount();
 			resourceMap[path] = newResrc;
-			//std::cout << resource->getRefCount() << " is ref count for this" << resource->getTextureName() << std::endl;
 			return newResrc;
 		}
 	}

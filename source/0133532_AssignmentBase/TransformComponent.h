@@ -27,8 +27,12 @@ public:
 
 	void setXScale(float value);
 	void setYScale(float value);
+	void setScale(float x, float y);
+	void setScale(Vector2 value);
+
 	float getXScale() const;
 	float getYScale() const;
+	Vector2 getScale() const;
 
 	void setRotation(float value);
 	float getRotation() const;

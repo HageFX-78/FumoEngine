@@ -12,11 +12,8 @@ RendererComponent::RendererComponent(GameObject* go, ShapeToDraw defShape) : Bas
 	allowMultiple = false;
 	setRGB(255.0f, 255.0f, 255.0f);
 	localTransform = gameObject->transform;
-
-	std::cout << "<@> Created Renderer Component on " << gameObject->getName() << std::endl;
 }
 RendererComponent::~RendererComponent() {
-	std::cout << "<!> Renderer component of " << gameObject->getName() << " is destroyed" << std::endl;
 }
 
 void RendererComponent::update(float deltaTime)
@@ -25,8 +22,6 @@ void RendererComponent::update(float deltaTime)
 
 void RendererComponent::render()
 {
-	if (!gameObject->getIsActive()) return;
-
 	glPushMatrix();
 
 	// Translation
@@ -72,9 +67,9 @@ void RendererComponent::setRGB(float nR, float nG, float nB)
 	g = nG / 255.0f;
 	b = nB / 255.0f;
 }
-void RendererComponent::getRGB()
+Vector3 RendererComponent::getRGB()
 {
-	std::cout << "R : " << r << ", G : " << g << ", B : " << b << std::endl;
+	return Vector3(r, g, b);
 }
 
 void RendererComponent::setCircleDrawValues(int circlePartition, float circleRadius)

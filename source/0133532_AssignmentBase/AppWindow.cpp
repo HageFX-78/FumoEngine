@@ -73,6 +73,11 @@ GLFWwindow* AppWindow::getWindowPtr()
 	return window;
 }
 
+Vector2 AppWindow::getWindowSize()
+{
+	return Vector2(data.width, data.height);
+}
+
 void framebuffer_size_init(int width, int height)
 {
 	if (width == 0 || height == 0) return;

@@ -71,7 +71,8 @@ void GameObjectCollection::update(float deltaTime)
 	
 	for (auto go : gameObjects)
 	{
-		go->runComponentUpdate(deltaTime);
+		if(go->getIsActive())
+			go->runComponentUpdate(deltaTime);
 	}
 	
 }
@@ -80,7 +81,8 @@ void GameObjectCollection::render()
 {
 	for (auto go : gameObjects)
 	{
-		go->runComponentRender();
+		if (go->getIsActive())
+			go->runComponentRender();
 	}
 }
 

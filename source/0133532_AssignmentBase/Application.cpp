@@ -1,13 +1,13 @@
 #include "Application.h"
-
 #include "SceneStateMachine.h"
 
 #include "ShowCaseScene.h"
 #include "SplashScene.h"
 
+Application* Application::instance;
 int Application::initialize(int width, int height, const char* title)
 {
-
+	instance = this;
 	window = new AppWindow();
 
 	Time::setTargetFrameRate(60);// Set initial framerate
@@ -16,15 +16,16 @@ int Application::initialize(int width, int height, const char* title)
 	if (result)
 	{
 		window->setWindowEventCallback([this](WindowEvents eventType, void* payload)
-		{
-			onReceiveWindowEvent(eventType, payload);
-		});
+			{
+				onReceiveWindowEvent(eventType, payload);
+			});
 	}
 	isRunning = true;
-
+	isPaused = false;
 	// Scene Creation ------------------------------------------
+	SceneStateMachine::addScene<SplashScene>();
 	SceneStateMachine::addScene<ShowCaseScene>();
-	SceneStateMachine::loadScene("ShowCaseScene");
+	SceneStateMachine::loadScene("SplashScene");
 	// ---------------------------------------------------------
 
 
@@ -38,7 +39,7 @@ void Application::run()
 		// Timing --------------------------------------------------------------	
 		Time::process();//Process time, delta time and frame limiting
 		// ---------------------------------------------------------------------
-		
+
 
 		// Input Processing ----------------------------------------------------
 		Input::processInput(window);
@@ -48,13 +49,19 @@ void Application::run()
 		{
 			isRunning = false;
 		}
+		if (Input::getKeyDown(GLFW_KEY_TAB))
+		{
+			isPaused = !isPaused;
+		}
 		// ---------------------------------------------------------------------
 
 		// Updates -------------------------------------------------------------
-		std::string titleText = SceneStateMachine::getCurrentSceneName() + "      [ " + Time::getCurrentFPS().c_str() + " ]";
+		std::string titleText = SceneStateMachine::getCurrentSceneName() + "      [ " + Time::getCurrentFPS().c_str() + " ]" +
+			"     State : [ " + (isPaused ? "Paused" : "Running") + " ]";
 		glfwSetWindowTitle(window->getWindowPtr(), titleText.c_str());
 
-		SceneStateMachine::update(Time::getDeltaTime());		
+		if (!isPaused)
+			SceneStateMachine::update(Time::getDeltaTime());
 		// ---------------------------------------------------------------------
 
 		// Rendering --------------------------------------------------------s---
@@ -100,3 +107,10 @@ void Application::onReceiveWindowEvent(WindowEvents eventType, void* payload)
 		glLoadIdentity();
 	}
 }
+
+Vector2 Application::getWindowSize()
+{
+	return window->getWindowSize();
+}
+
+
