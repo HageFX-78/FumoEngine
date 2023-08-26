@@ -1,11 +1,11 @@
 var index =
 [
     [ "Fumo Engine", "index.html#autotoc_md0", null ],
-    [ "Table of Contents", "index.html#autotoc_md2", null ],
+    [ "Table of Contents", "index.html#autotoc_md3", null ],
     [ "Introduction", "index.html#introduction", null ],
     [ "Creating Scenes", "index.html#creating-scenes", null ],
     [ "Custom Components", "index.html#custom-components", [
-      [ "Notes:", "index.html#autotoc_md3", null ]
+      [ "Notes:", "index.html#autotoc_md4", null ]
     ] ],
     [ "Tying scene and components", "index.html#tyingit", null ],
     [ "Core Game Engine Components", "index.html#core-game-engine-components", [
@@ -16,5 +16,6 @@ var index =
       [ "CircleCollider", "index.html#circlecollider", null ],
       [ "Resource Management", "index.html#resource-management", null ]
     ] ],
-    [ "Conclusion", "index.html#conclusion", null ]
+    [ "Conclusion", "index.html#conclusion", null ],
+    [ "Acknowledgements", "index.html#acknowledgement", null ]
 ];

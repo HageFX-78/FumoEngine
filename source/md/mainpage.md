@@ -9,6 +9,9 @@ Welcome to the funky manual of Fumo Engine or Fumo for short. This manual will g
 `[ Tab ]` to pause/unpause application. <br>
 `[ Esc ]` to exit applicaiton.
 
+#### Made By
+0133532 Lim Jun Jie
+
 <hr><br>
 
 ## Table of Contents
@@ -24,6 +27,7 @@ Welcome to the funky manual of Fumo Engine or Fumo for short. This manual will g
     - [CircleCollider](#circlecollider)
     - [Resource Management](#resource-management)
 6. [Conclusion](#conclusion)
+7. [Acknowledgements](#acknowledgement)
 
 <hr><br>
 
@@ -484,3 +488,17 @@ This allows different types of resources and allocated before they are displayed
 ## Conclusion {#conclusion}
 
 Thank you for attempting to use Fumo Engine! If you have any questions or issues do let me know on github or discord. Stay Funky.
+
+## Acknowledgements {#acknowledgement}
+
+External libraries used:
+- glad by OpenGL
+- glfw by OpenGL
+- texture_utils.h provided by Mr. Faris
+- angle_utils/vector provided by Mr. Faris
+- angle_utils/matrix provided by Mr. Faris
+- Doxygen for generating this document
+
+Images:
+- Fumo from Touhou Project
+- Every other art asset is self-made

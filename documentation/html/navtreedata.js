@@ -27,10 +27,10 @@ var NAVTREE =
   [ "Fumo Engine", "index.html", [
     [ "User Manual", "index.html", "index" ],
     [ "Showcase : Sample Game", "md_source_2md_2showcase.html", [
-      [ "FUMONIA", "md_source_2md_2showcase.html#autotoc_md4", [
-        [ "Controls", "md_source_2md_2showcase.html#autotoc_md5", null ],
-        [ "Rules", "md_source_2md_2showcase.html#autotoc_md6", null ],
-        [ "Funky Features", "md_source_2md_2showcase.html#autotoc_md7", null ]
+      [ "FUMONIA", "md_source_2md_2showcase.html#autotoc_md5", [
+        [ "Controls", "md_source_2md_2showcase.html#autotoc_md6", null ],
+        [ "Rules", "md_source_2md_2showcase.html#autotoc_md7", null ],
+        [ "Funky Features", "md_source_2md_2showcase.html#autotoc_md8", null ]
       ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
@@ -45,7 +45,6 @@ var NAVTREE =
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
-      [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
@@ -71,8 +70,8 @@ var NAVTREEINDEX =
 "_app_window_8cpp.html",
 "class_fumo_engine_1_1_input.html",
 "class_showcase_1_1_splash_scene.html#a1750a28705320a21c2119d3408445b04",
-"glad_8c.html#a58142c4ae94b62a5fca929d9433cb1ea",
-"glad_8c.html#ac57e49551696f0a7e30d0ae22d93c893",
+"glad_8c.html#a58d96d8c372fe36d828f3afd394e7c1e",
+"glad_8c.html#ac5bd4950a868c99984fcf62873cee8a8",
 "struct_matrix4.html#a33db7738cf39d7d30fbb6d59871b8fef"
 ];
 

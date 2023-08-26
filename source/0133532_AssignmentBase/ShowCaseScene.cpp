@@ -147,8 +147,11 @@ namespace Showcase
 	void ShowCaseScene::on_activate() {
 		glClearColor(35.0f / 255.0f, 43.0f / 255.0f, 43.0f / 255.0f, 1);
 
-		//Uncomment to show colliders
-		//Fumo::CircleCollider::globalShowCollider = true;
+		std::cout << std::endl << "< Move cursor around to aim >" << std::endl;
+		std::cout << "[ W ][ A ][ S ][ D ] to move around" << std::endl;
+		std::cout << "[ Space ]/[ Left Mouse Button ] to fire bullets (Hold Down)" << std::endl;
+		std::cout << "[ R ] when game is over to restart the level" << std::endl;
+		std::cout << "[ E ] to toggle collider visibility" << std::endl << std::endl;
 	}
 
 	void ShowCaseScene::on_update(float deltaTime) {
