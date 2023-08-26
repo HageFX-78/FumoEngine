@@ -17,11 +17,11 @@ namespace Showcase
 	}
 	void SplashScene::initialize() {
 		go1 = new Fumo::GameObject("SplashBar");
-		go1->transform->setYPosition(-80);
+		go1->transform->setYPosition(-300);
 		go1->addComponent<Fumo::ProgressBar>();
 		go1->getComponent<Fumo::ProgressBar>()->setProgress(1.0f);
-		go1->getComponent<Fumo::ProgressBar>()->setBackDropColor(35.0f, 43.0f, 43.0f, 0.6f);
-		go1->getComponent<Fumo::ProgressBar>()->setBarColor(171.0f, 216.0f, 238.0f, 1.0f);
+		go1->getComponent<Fumo::ProgressBar>()->setBackDropColor(35.0f, 43.0f, 43.0f, 1.0f);
+		go1->getComponent<Fumo::ProgressBar>()->setBarColor(133.0f, 210.0f, 255.0f, 1.0f);
 
 
 		go2 = new Fumo::GameObject("Fumo");

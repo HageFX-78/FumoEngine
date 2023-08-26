@@ -12,6 +12,11 @@
 
 namespace FumoEngine
 {
+	/// <summary>
+	/// This class defines the core structure of the Fumo Engine's main application. 
+	/// It initializes the engine, manages scenes, handles input, updates and renders scenes, and responds to window events. 
+	/// It creates a loop for continuous execution, allowing scenes to evolve. 
+	/// </summary>
 	class Application
 	{
 	public:

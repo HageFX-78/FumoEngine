@@ -10,6 +10,10 @@
 namespace Fumo = FumoEngine;
 namespace Showcase
 {
+	/// <summary>
+	/// A simple shooter survival game where you have to survive a horde of fumo by firing at them under 60 seconds.<br><br>
+	/// It is to showcase the extent of functionality of Fumo Engine
+	/// </summary>
 	class ShowCaseScene : public Fumo::BaseScene {
 	public:
 		std::string getName() const override;
@@ -19,9 +23,23 @@ namespace Showcase
 
 		static void EnqueueEnemy(Fumo::GameObject* obj);
 		static Fumo::GameObject* DequeueEnemy();
-
+		
 		static void DebugSize();
+		/// <summary>
+		/// Generate random float using Mersenne Twister engine, first line gets a random number from the hardware itself
+		/// and provides it to the engine in the second line. Both min and max values are inclusive.
+		/// </summary>
+		/// <param name="min">Minimum value (Inclusive)</param>
+		/// <param name="max">Maximum value (Inclusive)</param>
+		/// <returns></returns>
 		static float GenerateRandomFloat(float min, float max);
+		/// <summary>
+		/// Generate random int using Mersenne Twister engine, first line gets a random number from the hardware itself
+		/// and provides it to the engine in the second line. Both min and max values are inclusive.
+		/// </summary>
+		/// <param name="min">Minimum value (Inclusive)</param>
+		/// <param name="max">Maximum value (Inclusive)</param>
+		/// <returns></returns>
 		static int GenerateRandomInt(int min, int max);
 
 		static void GameOver(bool won);
@@ -52,10 +70,22 @@ namespace Showcase
 
 		static bool gameOver;
 
+		/// <summary>
+		/// Bullet object pool
+		/// </summary>
 		static std::queue<Fumo::GameObject*> bulletPool;
+		/// <summary>
+		/// Enemy object pool
+		/// </summary>
 		static std::queue<Fumo::GameObject*> enemyPool;
 
+		/// <summary>
+		/// Collection of active bullets to call logic on in the scene and pool
+		/// </summary>
 		static std::unordered_set<Fumo::GameObject*> activeBullets;
+		/// <summary>
+		/// Collection of active enemies to call logic on in the scene and pool
+		/// </summary>
 		static std::unordered_set<Fumo::GameObject*> activeEnemies;
 	};
 }

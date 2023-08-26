@@ -95,7 +95,6 @@ namespace FumoEngine
 	}
 
 
-
 	void TransformComponent::setVelocity(Vector2 value)
 	{
 		velocity = value;

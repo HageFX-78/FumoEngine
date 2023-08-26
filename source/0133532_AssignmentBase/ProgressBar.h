@@ -11,6 +11,9 @@
 
 namespace FumoEngine
 {
+	/// <summary>
+	/// An enum to determine where the progress bar would extrude from
+	/// </summary>
 	enum BarPivot
 	{
 		Top,
@@ -20,6 +23,9 @@ namespace FumoEngine
 		CenterHorizontal,
 		CenterVertical
 	};
+	/// <summary>
+	/// A UI game object that is meant to visualize a progress bar/loading bar, can set which direction the bar extrudes from
+	/// </summary>
 	class ProgressBar : public BaseComponent
 	{
 	public:
@@ -42,24 +48,53 @@ namespace FumoEngine
 		void setProgress(float value);
 		float getProgress();
 
+		void setBarLength(float value);
 		float getBarLength();
+		void setBarHeight(float value);
+		float getBarHeight();
 
-		void DrawQuad(float left, float top, float right, float bottom, const Vector4& color);
+		
 	protected:
 		//colors
 		Vector4 progressBarColor;
 		Vector4 progressBarBackgroundColor;
 
-		//Default/Max values for length and height
+		/// <summary>
+		/// Bar length and height for both the top and bottom bar of the progress bar
+		/// </summary>
 		float barLength;
 		float barHeight;
 
 		float progress;
+		/// <summary>
+		/// Where the bar extrudes from, Left is the default.<br>
+		/// In this state, adding the progress value of the bar would extend the bar from left to right.
+		/// </summary>
 		BarPivot extrudeFrom;
 
 		TransformComponent* localTransform;
+
+		/// <summary>
+		/// Pivot point similar to spriteRenderer
+		/// </summary>
 		Vector3 pivotPoint;
+
+		/// <summary>
+		/// Function to draw both progress bar with given length and height
+		/// </summary>
+		/// <param name="length"></param>
+		/// <param name="height"></param>
 		void drawProgressBar(float length, float height);//Current values, can be swapped
+
+		/// <summary>
+		/// Somewhat private Function to simplify the process of drawing the innerbar extruding from diffent directions
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="top"></param>
+		/// <param name="right"></param>
+		/// <param name="bottom"></param>
+		/// <param name="color"></param>
+		void DrawQuad(float left, float top, float right, float bottom, const Vector4& color);
 	};
 }
 

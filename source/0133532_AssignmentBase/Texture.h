@@ -7,6 +7,9 @@
 
 namespace FumoEngine
 {
+	/// <summary>
+	/// The class that holds the texture for sprites of SpriteRenderer.
+	/// </summary>
 	class Texture
 	{
 	public:
@@ -53,7 +56,13 @@ namespace FumoEngine
 		unsigned int texture_ID;
 		unsigned int refCount = 0;
 
+		/// <summary>
+		/// Original width of the loaded texture/image
+		/// </summary>
 		int textureWidth;
+		/// <summary>
+		/// Original height of the loaded texture/image
+		/// </summary>
 		int textureHeight;
 
 	};

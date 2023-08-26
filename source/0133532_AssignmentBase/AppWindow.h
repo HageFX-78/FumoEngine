@@ -11,6 +11,9 @@
 
 namespace FumoEngine
 {
+	/// <summary>
+	/// Window event enums to determine which event to act upon used in  WindowEventCallback
+	/// </summary>
 	enum WindowEvents {
 		resize,
 		close
@@ -25,6 +28,9 @@ namespace FumoEngine
 		WindowEventCallbackFn callback;
 	};
 
+	/// <summary>
+	/// Application window that governs actions concerning the window itself.
+	/// </summary>
 	class AppWindow
 	{
 	public:

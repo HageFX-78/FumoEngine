@@ -73,9 +73,24 @@ namespace FumoEngine
 		return progress;
 	}
 
+	void ProgressBar::setBarLength(float value)
+	{
+		barLength = value;
+	}
+
 	float ProgressBar::getBarLength()
 	{
 		return barLength;
+	}
+
+	void ProgressBar::setBarHeight(float value)
+	{
+		barHeight = value;
+	}
+
+	float ProgressBar::getBarHeight()
+	{
+		return barHeight;
 	}
 
 	void ProgressBar::drawProgressBar(float length, float height)

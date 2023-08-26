@@ -10,6 +10,9 @@
 
 namespace FumoEngine
 {
+	/// <summary>
+	/// Predefined primitive shapes to draw
+	/// </summary>
 	enum ShapeToDraw
 	{
 		Quad,
@@ -17,6 +20,10 @@ namespace FumoEngine
 		Circle
 	};
 
+	/// <summary>
+	/// Depreceated renderer component that is used to render primitive shapes like Quad, Triangle and Circle<br>
+	/// Only circle radius and partition can be given values, the other shapes are rendered based on engine default.
+	/// </summary>
 	class RendererComponent : public BaseComponent
 	{
 	public:

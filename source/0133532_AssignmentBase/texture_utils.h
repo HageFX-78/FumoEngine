@@ -5,6 +5,9 @@
 #include <string>
 #include <iostream>
 
+/// <summary>
+/// An additional struct to store more than just the handle of a loaded texture, contains the handle, original width and height of the texture.
+/// </summary>
 struct TextureData {
 	unsigned int handle;
 	int width;

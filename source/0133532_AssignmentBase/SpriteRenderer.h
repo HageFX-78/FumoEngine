@@ -11,11 +11,14 @@
 namespace FumoEngine
 {
 	class Texture;
+	/// <summary>
+	/// A component to add simple 2D sprites and attach them to game objects.
+	/// </summary>
 	class SpriteRenderer : public BaseComponent
 	{
 	public:
 		SpriteRenderer(GameObject* go,
-			std::string spritePath = "../assets/fumo.png",
+			std::string spritePath = "../assets/fumoEngine.png",
 			Vector4 dColor = Vector4(255.0f, 255.0f, 255.0f, 1.0f),
 			Vector2 dPivot = Vector2(0.5f, 0.5f),
 			Vector2 dSize = Vector2(1.0f, 1.0f));
@@ -44,8 +47,18 @@ namespace FumoEngine
 		Texture* texture;
 
 		float r, g, b, a;
+
+		/// <summary>
+		/// Defines the width and height scale locally of said texture. It is essentially a second layer of scaling
+		/// used only on the texture of this specific game object. So different textures may have different sprite sizes without affecting
+		/// the scale on transform component.
+		/// </summary>
 		float w, h;
 
+		/// <summary>
+		/// Pivot point, it is in Vector3 because the provided Matrix library only accepts Vector3, it is done for convenience sake.<br>
+		/// Getting and setting the value is done in Vector2 so it does not affect the user.
+		/// </summary>
 		Vector3 pivotPoint;//So i can easily add it to matrix4
 	};
 }

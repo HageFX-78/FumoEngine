@@ -117,6 +117,7 @@ namespace Showcase
 		timerBar = new Fumo::GameObject("Timer");
 		timerBar->addComponent<Fumo::ProgressBar>(Fumo::CenterHorizontal, Fumo::Application::instance->getWindowSize().x - 50.0f, 30.0f, 1.0f);
 		timerBar->getComponent<Fumo::ProgressBar>()->setBothBarOpacity(0.5f);
+		timerBar->getComponent<Fumo::ProgressBar>()->setBarColor(133.0f, 210.0f, 255.0f, 1.0f);
 		timerBar->transform->setYPosition(Fumo::Application::instance->getWindowSize().y * 0.5f - 30.0f);
 
 		healthUI = new Fumo::GameObject("HUI1");
@@ -272,6 +273,14 @@ namespace Showcase
 		{
 			player->transform->setYPosition(player->transform->getYPosition() - 100.0f * deltaTime);
 		}
+		if (Fumo::Input::getKeyDown(GLFW_KEY_R) && gameOver)
+		{
+			RestartGame();
+		}
+		if (Fumo::Input::getKeyDown(GLFW_KEY_E))
+		{
+			Fumo::CircleCollider::globalShowCollider = !Fumo::CircleCollider::globalShowCollider;
+		}
 
 		//  - - - - - Shoot
 		shootCooldownTimer -= deltaTime;
@@ -295,15 +304,6 @@ namespace Showcase
 				}
 				shootCooldownTimer = 0.25f;
 			}
-
-		}
-		if (Fumo::Input::getKeyDown(GLFW_KEY_R) && gameOver)
-		{
-			RestartGame();
-		}
-		if (Fumo::Input::getKeyDown(GLFW_KEY_E))
-		{
-			//Debug
 		}
 	}
 
@@ -360,9 +360,7 @@ namespace Showcase
 		std::mt19937 gen(rd());
 		std::uniform_real_distribution<float> distribution(min, max);
 
-		float randomValue = distribution(gen);
-
-		return randomValue;
+		return distribution(gen);
 	}
 	int ShowCaseScene::GenerateRandomInt(int min, int max)
 	{
@@ -370,9 +368,7 @@ namespace Showcase
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<int> distribution(min, max);
 
-		int randomValue = distribution(gen);
-
-		return randomValue;
+		return distribution(gen);
 	}
 
 	void ShowCaseScene::GameOver(bool won)

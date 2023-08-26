@@ -11,6 +11,9 @@
 namespace Fumo = FumoEngine;
 namespace Showcase
 {
+	/// <summary>
+	/// Simple splash screen to showcase ProgressBar component
+	/// </summary>
 	class SplashScene : public Fumo::BaseScene {
 	public:
 		std::string getName() const override;

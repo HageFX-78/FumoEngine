@@ -40,6 +40,7 @@ namespace FumoEngine
 		Vector3 translationVector(localTransform->getXPosition(), localTransform->getYPosition(), 0.0f);
 		Matrix4 translationMatrix = Matrix4::translate(translationVector);
 
+		
 		// Rotation
 		float pivotX = 2.0f * pivotPoint.x - 1.0f;//Scale the default -1.0 to 1.0 pivot till 0.0 to 1,0 based on requirement
 		float pivotY = 2.0f * pivotPoint.y - 1.0f;

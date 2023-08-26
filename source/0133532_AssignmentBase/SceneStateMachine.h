@@ -6,6 +6,9 @@
 
 namespace FumoEngine
 {
+	/// <summary>
+	/// A general manager of all scenes, used for switching and adding scenes to the game.
+	/// </summary>
 	class SceneStateMachine
 	{
 	public:

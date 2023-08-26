@@ -8,6 +8,9 @@
 
 namespace FumoEngine
 {
+	/// <summary>
+	/// A core component that is added to every game object by default, governs the position, scale and orientation of game objects.
+	/// </summary>
 	class TransformComponent : public BaseComponent
 	{
 	public:
@@ -43,6 +46,10 @@ namespace FumoEngine
 	protected:
 		float xPosition = 0, yPosition = 0, xScale = 1, yScale = 1, rotation = 0;
 
+		/// <summary>
+		/// Velocity of actor, an alternative to setting position manually for movement.
+		/// It is used to set a constant velocity with indefinite period of time
+		/// </summary>
 		Vector2 velocity;
 	};
 }

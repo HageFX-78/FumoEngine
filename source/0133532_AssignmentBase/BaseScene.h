@@ -5,6 +5,9 @@
 
 namespace FumoEngine
 {
+	/// <summary>
+	/// Base scene of all scenes to be created in the engine, provides boilerplate template for users to create custom logic in.
+	/// </summary>
 	class BaseScene
 	{
 	public:

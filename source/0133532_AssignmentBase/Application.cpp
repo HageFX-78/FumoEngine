@@ -6,7 +6,12 @@
 
 namespace FumoEngine
 {
+	/// <summary>
+	/// A singleton so that it can be accessed globally to retrieve non-static values
+	/// </summary>
 	Application* Application::instance;
+
+
 	int Application::initialize(int width, int height, const char* title)
 	{
 		instance = this;
