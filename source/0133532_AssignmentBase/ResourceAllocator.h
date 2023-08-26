@@ -17,6 +17,7 @@ namespace FumoEngine
 			if (existingResource)
 			{
 				existingResource->increaseRefCount();
+				std::cout << "<T> [" << path << "] has " << existingResource->getRefCount() << " ref counts" << std::endl;
 				return existingResource;
 
 			}
@@ -24,6 +25,7 @@ namespace FumoEngine
 			{
 				ResourceType* newResrc = ResourceType::createResource(path);
 				newResrc->increaseRefCount();
+				std::cout << "<T> [" << path << "] has been initialized with " << newResrc->getRefCount() << " ref counts" << std::endl;
 				resourceMap[path] = newResrc;
 				return newResrc;
 			}

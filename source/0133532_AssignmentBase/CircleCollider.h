@@ -37,6 +37,8 @@ namespace FumoEngine
 		virtual void OnCollisionExit(GameObject& other);
 		virtual void OnCollisionStay(GameObject& other);
 
+		static bool globalShowCollider;
+
 	protected:
 		std::unordered_set<UserTag> collidables = { Default };
 		std::unordered_set<GameObject*> collidedCache;

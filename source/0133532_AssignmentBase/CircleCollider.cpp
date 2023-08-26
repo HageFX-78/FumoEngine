@@ -6,6 +6,7 @@
 
 namespace FumoEngine
 {
+	bool CircleCollider::globalShowCollider = false;
 	CircleCollider::CircleCollider(GameObject* go, float rad, bool isVisible) : BaseComponent(go), radius(rad), showCollider(isVisible)
 	{
 		localTransform = go->transform;
@@ -63,7 +64,7 @@ namespace FumoEngine
 
 	void CircleCollider::render()
 	{
-		if (showCollider)
+		if (showCollider || globalShowCollider)
 		{
 			glPushMatrix();
 

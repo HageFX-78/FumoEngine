@@ -26,9 +26,11 @@ namespace FumoEngine
 		isPaused = false;
 
 		// Scene Creation ------------------------------------------
+
 		SceneStateMachine::addScene<Showcase::SplashScene>();
 		SceneStateMachine::addScene<Showcase::ShowCaseScene>();
 		SceneStateMachine::loadScene("SplashScene");
+
 		// ---------------------------------------------------------
 
 
@@ -47,7 +49,7 @@ namespace FumoEngine
 			// Input Processing ----------------------------------------------------
 			Input::processInput(window);
 
-			// Global Key Input
+			// Global Key Inputs
 			if (Input::getKey(GLFW_KEY_ESCAPE))
 			{
 				isRunning = false;

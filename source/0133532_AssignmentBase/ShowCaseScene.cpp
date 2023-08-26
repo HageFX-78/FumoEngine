@@ -39,11 +39,11 @@ namespace Showcase
 				{
 				case 0:
 					std::cout << "Game Over" << std::endl;
-					ShowCaseScene::healthUI->setIsActive(false);
+					ShowCaseScene::healthUI2->setIsActive(false);
 					ShowCaseScene::GameOver(false);
 					break;
 				case 1:
-					ShowCaseScene::healthUI2->setIsActive(false);
+					ShowCaseScene::healthUI->setIsActive(false);
 					break;
 				case 2:
 					ShowCaseScene::healthUI3->setIsActive(false);
@@ -98,7 +98,7 @@ namespace Showcase
 		{
 			Fumo::GameObject* newEnemy = new Fumo::GameObject("Fumo", Fumo::Enemy);
 			newEnemy->addComponent<Fumo::SpriteRenderer>("../assets/fumo.png");
-			newEnemy->addComponent<EnemyCollider>(35.0f, true);
+			newEnemy->addComponent<EnemyCollider>(35.0f);
 			newEnemy->getComponent<EnemyCollider>()->addCollidableTag(Fumo::Player);
 			newEnemy->getComponent<EnemyCollider>()->addCollidableTag(Fumo::Bullet);
 
@@ -109,13 +109,13 @@ namespace Showcase
 		{
 			Fumo::GameObject* newBullet = new Fumo::GameObject("Bullet", Fumo::Bullet);
 			newBullet->addComponent<Fumo::RendererComponent>(Fumo::Circle);
-			newBullet->addComponent<Fumo::CircleCollider>(5.0f, true);
+			newBullet->addComponent<Fumo::CircleCollider>(5.0f);
 
 			EnqueueBullet(newBullet);
 		}
 
 		timerBar = new Fumo::GameObject("Timer");
-		timerBar->addComponent<Fumo::ProgressBar>(Fumo::Application::instance->getWindowSize().x - 50.0f, 30.0f, 1.0f);
+		timerBar->addComponent<Fumo::ProgressBar>(Fumo::CenterHorizontal, Fumo::Application::instance->getWindowSize().x - 50.0f, 30.0f, 1.0f);
 		timerBar->getComponent<Fumo::ProgressBar>()->setBothBarOpacity(0.5f);
 		timerBar->transform->setYPosition(Fumo::Application::instance->getWindowSize().y * 0.5f - 30.0f);
 
@@ -145,6 +145,9 @@ namespace Showcase
 
 	void ShowCaseScene::on_activate() {
 		glClearColor(35.0f / 255.0f, 43.0f / 255.0f, 43.0f / 255.0f, 1);
+
+		//Uncomment to show colliders
+		//Fumo::CircleCollider::globalShowCollider = true;
 	}
 
 	void ShowCaseScene::on_update(float deltaTime) {
@@ -213,7 +216,7 @@ namespace Showcase
 						newEnemy->transform->setPosition(spawnX, spawnY);
 					}
 				}
-				spawnTimer = GenerateRandomFloat(0.2f, 2.0f);
+				spawnTimer = GenerateRandomFloat(0.1f, 2.0f);
 			}
 
 
@@ -290,7 +293,7 @@ namespace Showcase
 
 					bullet->transform->setVelocity(Vector2(direction.x * 300.0f, direction.y * 300.0f));
 				}
-				shootCooldownTimer = 0.2f;
+				shootCooldownTimer = 0.25f;
 			}
 
 		}
@@ -353,22 +356,20 @@ namespace Showcase
 
 	float ShowCaseScene::GenerateRandomFloat(float min, float max)
 	{
-		std::random_device rd; // Seed for the random number generator
-		std::mt19937 gen(rd()); // Mersenne Twister engine
+		std::random_device rd;
+		std::mt19937 gen(rd());
 		std::uniform_real_distribution<float> distribution(min, max);
 
-		// Generate a random number in the specified range
 		float randomValue = distribution(gen);
 
 		return randomValue;
 	}
 	int ShowCaseScene::GenerateRandomInt(int min, int max)
 	{
-		std::random_device rd; // Seed for the random number generator
-		std::mt19937 gen(rd()); // Mersenne Twister engine
+		std::random_device rd;
+		std::mt19937 gen(rd());
 		std::uniform_int_distribution<int> distribution(min, max);
 
-		// Generate a random number in the specified range
 		int randomValue = distribution(gen);
 
 		return randomValue;
@@ -404,6 +405,8 @@ namespace Showcase
 
 		winScreen->setIsActive(false);
 		loseScreen->setIsActive(false);
+
+		playerLives = 3;
 
 		gameOver = false;
 

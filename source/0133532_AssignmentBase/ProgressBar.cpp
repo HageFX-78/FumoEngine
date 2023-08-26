@@ -3,7 +3,8 @@
 
 namespace FumoEngine
 {
-	ProgressBar::ProgressBar(GameObject* go, float brLen, float brHei, float prog) : BaseComponent(go), barLength(brLen), barHeight(brHei), progress(prog)
+	ProgressBar::ProgressBar(GameObject* go, BarPivot defaultPivot, float brLen, float brHei, float prog)
+		: BaseComponent(go), extrudeFrom(defaultPivot), barLength(brLen), barHeight(brHei), progress(prog)
 	{
 		allowMultiple = false;
 
@@ -56,6 +57,12 @@ namespace FumoEngine
 		pivotPoint = Vector3(x, y, 0.0f);
 	}
 
+	void ProgressBar::setBarExtrudeFrom(BarPivot value)
+	{
+		extrudeFrom = value;
+	}
+
+
 	void ProgressBar::setProgress(float value)
 	{
 		progress = std::max(0.0f, std::min(value, 1.0f));
@@ -94,31 +101,53 @@ namespace FumoEngine
 		Matrix4 scaleMatrix = Matrix4::scale(scaleVector);
 
 		Matrix4 allMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+
 		glMultMatrixf(allMatrix.data);
 
+		DrawQuad(-length / 2, height / 2, length / 2, -height / 2, progressBarBackgroundColor);
+
+		// Draw progress bar
 		float innerBarWidth = length * progress;
+		float innerBarHeight = height * progress;
+		switch (extrudeFrom)
+		{
+		case Left:
+			DrawQuad(-length / 2, height / 2, -length / 2 + innerBarWidth, -height / 2, progressBarColor);
+			break;
+		case Right:
+			DrawQuad(length / 2 - innerBarWidth, height / 2, length / 2, -height / 2, progressBarColor);
+			break;
+		case Top:
+			DrawQuad(-length / 2, height / 2, length / 2, height / 2 - innerBarHeight, progressBarColor);
+			break;
+		case Bottom:
+			DrawQuad(-length / 2, -height / 2 + innerBarHeight, length / 2, -height / 2, progressBarColor);
+			break;
+		case CenterHorizontal:
+			DrawQuad(0 - innerBarWidth / 2, height / 2, 0 + innerBarWidth / 2, -height / 2, progressBarColor);
+			break;
+		case CenterVertical:
+			DrawQuad(-length / 2, 0 + innerBarHeight /2  , length / 2, 0 - innerBarHeight / 2, progressBarColor);
+			break;
+
+		}
+		glPopMatrix();
+	}
+
+	void ProgressBar::DrawQuad(float left, float top, float right, float bottom, const Vector4& color)
+	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glBegin(GL_QUADS);
-		glColor4f(progressBarBackgroundColor.x, progressBarBackgroundColor.y, progressBarBackgroundColor.z, progressBarBackgroundColor.w);
-		glVertex3f(-length / 2, height / 2, 0.0f);
-		glVertex3f(-length / 2, -height / 2, 0.0f);
-		glVertex3f(length / 2, -height / 2, 0.0f);
-		glVertex3f(length / 2, height / 2, 0.0f);
-		glEnd();
-
-		glBegin(GL_QUADS);
-		glColor4f(progressBarColor.x, progressBarColor.y, progressBarColor.z, progressBarColor.w);
-		glVertex3f(-length / 2, height / 2, 0.0f);
-		glVertex3f(-length / 2, -height / 2, 0.0f);
-		glVertex3f(-length / 2 + innerBarWidth, -height / 2, 0.0f);
-		glVertex3f(-length / 2 + innerBarWidth, height / 2, 0.0f);
+		glColor4f(color.x, color.y, color.z, color.w);
+		glVertex3f(left, top, 0.0f);
+		glVertex3f(left, bottom, 0.0f);
+		glVertex3f(right, bottom, 0.0f);
+		glVertex3f(right, top, 0.0f);
 		glEnd();
 
 		glDisable(GL_BLEND);
-
-		glPopMatrix();
 	}
 }
 

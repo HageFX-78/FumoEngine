@@ -87,7 +87,7 @@ namespace FumoEngine
 		float mousePosXCentered = static_cast<float>(mousePos.x) - (screenWidth * 0.5f);
 		float mousePosYCentered = (screenHeight * 0.5f) - static_cast<float>(mousePos.y);
 
-		centeredMousePos = InputVector2(mousePosXCentered, mousePosYCentered);
+		centeredMousePos = InputVector2(mousePosXCentered, mousePosYCentered);//Where 0, 0 is center of the window
 
 		//Keys
 		for (auto& it : previous_key_states)

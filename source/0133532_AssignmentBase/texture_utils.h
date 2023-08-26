@@ -35,7 +35,7 @@ TextureData loadTexture(std::string path)
 		GLint internalFormat = nrChannels == 4 ? GL_RGBA : GL_RGB;
 		GLenum format = nrChannels == 4 ? GL_RGBA : GL_RGB;
 		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		std::cout << "Texture loaded: " << path << std::endl;
+		std::cout << "<T> Texture loaded: [" << path << "]" << std::endl;
 	}
 	else
 	{

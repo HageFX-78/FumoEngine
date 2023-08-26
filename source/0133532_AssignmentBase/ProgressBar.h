@@ -11,10 +11,19 @@
 
 namespace FumoEngine
 {
+	enum BarPivot
+	{
+		Top,
+		Bottom,
+		Left,
+		Right,
+		CenterHorizontal,
+		CenterVertical
+	};
 	class ProgressBar : public BaseComponent
 	{
 	public:
-		ProgressBar(GameObject* go, float brLength = 500.0f, float brHeight = 30.0f, float prog = 0.5f);
+		ProgressBar(GameObject* go, BarPivot defaultPivot = Left, float brLength = 500.0f, float brHeight = 30.0f, float prog = 0.5f);
 		~ProgressBar();
 		void update(float deltaTime) override;
 		void render() override;
@@ -28,11 +37,14 @@ namespace FumoEngine
 		void setBothBarOpacity(float a);
 
 		void setPivot(float x, float y);
+		void setBarExtrudeFrom(BarPivot value);
 
 		void setProgress(float value);
 		float getProgress();
 
 		float getBarLength();
+
+		void DrawQuad(float left, float top, float right, float bottom, const Vector4& color);
 	protected:
 		//colors
 		Vector4 progressBarColor;
@@ -43,6 +55,7 @@ namespace FumoEngine
 		float barHeight;
 
 		float progress;
+		BarPivot extrudeFrom;
 
 		TransformComponent* localTransform;
 		Vector3 pivotPoint;

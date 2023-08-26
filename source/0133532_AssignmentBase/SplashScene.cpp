@@ -20,7 +20,7 @@ namespace Showcase
 		go1->transform->setYPosition(-80);
 		go1->addComponent<Fumo::ProgressBar>();
 		go1->getComponent<Fumo::ProgressBar>()->setProgress(1.0f);
-		go1->getComponent<Fumo::ProgressBar>()->setBackDropColor(255.0f, 247.0f, 212.0f, 0.6f);
+		go1->getComponent<Fumo::ProgressBar>()->setBackDropColor(35.0f, 43.0f, 43.0f, 0.6f);
 		go1->getComponent<Fumo::ProgressBar>()->setBarColor(171.0f, 216.0f, 238.0f, 1.0f);
 
 
@@ -29,7 +29,7 @@ namespace Showcase
 		go2->transform->setScale(2.0f, 2.0f);
 		go2->transform->setYPosition(80);
 
-		std::cout << std::endl << "[ KEY ] Space to skip" << std::endl << std::endl;
+		std::cout << std::endl << "[ Space ] Key to skip" << std::endl << std::endl;
 
 	}
 
